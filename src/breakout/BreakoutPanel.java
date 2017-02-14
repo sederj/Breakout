@@ -23,6 +23,8 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
 	/** instance of Breakout game */
 	private Breakout game;
 	
+	private int jonahsCool;
+	
 	/** ball object to be placed on panel */
     private Ball ball;
     
