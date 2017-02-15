@@ -12,6 +12,9 @@ import javax.swing.JFrame;
  */
 public class Breakout extends JFrame {
 	
+	/** default serial version UID */
+	private static final long serialVersionUID = 1L;
+
 	/** Dimensions of java panel */
     private final static int WIDTH = 1000, HEIGHT = 750;
     

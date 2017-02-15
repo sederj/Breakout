@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -20,6 +21,9 @@ import javax.swing.Timer;
  */
 public class BreakoutPanel extends JPanel implements ActionListener, KeyListener{
 	
+	/** default serial version UID */
+	private static final long serialVersionUID = 1L;
+
 	/** instance of Breakout game */
 	private Breakout game;
 	
@@ -29,8 +33,17 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
     /** player's paddle to be placed on panel */
     private Paddle player;
     
+    /** Arraylist of brick objects */
+    private ArrayList<Brick> bricks = new ArrayList<Brick>();
+    
     /** the player's current score */
     private int score;
+    
+    /** number of rows of bricks */
+    private final int NUM_BRICK_ROWS = 8;
+    
+    /** number of bricks in each row */
+    private final int NUM_BRICKS_IN_ROW = 10;
 
     /**
      * public constructor for BreakoutPanel. Adds ball and player to 
@@ -40,12 +53,38 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
     public BreakoutPanel(Breakout game) {
         setBackground(Color.WHITE);
         this.game = game;
+        createBricks();
         ball = new Ball(game);
         player = new Paddle(game, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT);
         Timer timer = new Timer(5, this);
         timer.start();
         addKeyListener(this);
         setFocusable(true);
+    }
+    
+    public void createBricks() {
+    	for (int row = 0; row < NUM_BRICK_ROWS; row++) {
+    		Color rowColor = checkColor(row);
+    		for (int col = 0; col < NUM_BRICKS_IN_ROW; col++) {
+    			bricks.add(new Brick(game, col, row, rowColor));
+    		}
+    	}
+    }
+    
+    private Color checkColor(int row) {
+        switch (row) {
+            case 0:
+            case 1: return Color.RED;
+            case 2:
+            case 3: return Color.ORANGE;
+            case 4:
+            case 5: return Color.YELLOW;
+            case 6:
+            case 7: return Color.GREEN;
+            case 8:
+            case 9: return Color.CYAN;
+        }
+        return Color.CYAN;
     }
 
     /**
@@ -54,6 +93,14 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
      */
     public Paddle getPlayer() {
         return player;
+    }
+    
+    /**
+     * Getter method for the arraylist of bricks
+     * @return bricks an arraylist of all brick objects
+     */
+    public ArrayList<Brick> getBricks() {
+    	return bricks;
     }
 
     /**
@@ -117,5 +164,8 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
         g.drawString(game.getPanel().getScore() + " : " + game.getPanel().getScore(), game.getWidth() / 2, 10);
         ball.paint(g);
         player.paint(g);
+        for (Brick brick : bricks) {
+        	brick.paint(g);
+        }
     }
 }

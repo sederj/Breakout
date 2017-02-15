@@ -2,8 +2,7 @@ package breakout;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
-
-import javax.swing.JOptionPane;
+import java.util.ArrayList;
 
 /**
  * This class contains logic for the ball object. Includes
@@ -21,8 +20,11 @@ public class Ball {
 	/** private instance of Breakout game */
 	private Breakout game;
 	
-	/* x and y are starting coordinates, xMove and yMove are how much the ball will move with each update */
+	/** x and y are starting coordinates, xMove and yMove are how much the ball will move with each update */
     private int x, y, xMove = 2, yMove = 2;
+    
+    /** Arraylist of brick objects */
+    private ArrayList<Brick> bricks;
 
     /**
      * Public constructor for ball object. Places ball in center of screen
@@ -33,6 +35,7 @@ public class Ball {
 		this.game = game;
         x = game.getWidth() / 2;
         y = game.getHeight() / 2;
+        bricks = game.getPanel().getBricks();
 	}
 	
 	/**
@@ -68,11 +71,18 @@ public class Ball {
 	}
 	
 	/**
-	 * Checks if ball intersects with player's paddle. If so, vertical direction of the ball reverses
+	 * Checks if ball intersects with player's paddle or bricks. If so, vertical direction of the ball reverses
 	 */
 	public void checkCollision() {
         if (game.getPanel().getPlayer().getBounds().intersects(getBounds())) 
         	yMove = -yMove;
+        
+        for (Brick brick : bricks) {
+        	if (game.getPanel().getPlayer().getBounds().intersects(brick.getBounds())) {
+        		//TODO: Change direction of ball
+        		//TODO: make brick object disappear - add remove method in Brick class or something
+        	}
+        }
     }
 
 	/**
