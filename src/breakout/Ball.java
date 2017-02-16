@@ -25,6 +25,9 @@ public class Ball {
     
     /** Arraylist of brick objects */
     private ArrayList<Brick> bricks;
+    
+    /** Brick object to be removed after arraylist iteration */
+    private Brick removeBrick;
 
     /**
      * Public constructor for ball object. Places ball in center of screen
@@ -45,27 +48,15 @@ public class Ball {
 	public void update() {
 		x += xMove;
         y += yMove;
-        //commented section currently for scoring for pong. switch to check for brick collision 
-        //check if it gets passed the paddle, then game over/decrement life
-//        if (x < 0) { 
-//            game.getPanel().increaseScore();
-//            x = game.getWidth() / 2;
-//            xMove = -xMove;
-//        }
-//        else if (x > game.getWidth() - WIDTH - 7) {
-//            game.getPanel().increaseScore();
-//            x = game.getWidth() / 2;
-//            xMove = -xMove;
-//        }
-        //if ball hits left or right sides, reverse horizontal direction
+
         if (x < 0 || x > game.getWidth() - WIDTH - 29)
             xMove = -xMove;
         if (y < 0)
         	yMove = -yMove;
-//        if (game.getPanel().getScore() == 10)
-//            JOptionPane.showMessageDialog(null, "Player 1 wins", "Pong", JOptionPane.PLAIN_MESSAGE);
-//        else if (game.getPanel().getScore() == 10)
-//            JOptionPane.showMessageDialog(null, "Player 2 wins", "Pong", JOptionPane.PLAIN_MESSAGE);
+
+        // TODO: add logic to update score. 
+        // TODO: add logic to update lives when ball passes below paddle
+        
         checkCollision();
 	}
 	
@@ -80,10 +71,20 @@ public class Ball {
         	yMove = -yMove;
         
         for (Brick brick : bricks) {
-        	if (game.getPanel().getPlayer().getBounds().intersects(brick.getBounds())) {
-        		//TODO: Change direction of ball
-        		//TODO: make brick object disappear - add remove method in Brick class or something
+        	if (brick.getBottomBound().intersects(getBounds()) || brick.getTopBound().intersects(getBounds())) { 
+        		yMove = -yMove;
+        		removeBrick = brick;
         	}
+        	else if (brick.getLeftBound().intersects(getBounds()) || brick.getRightBound().intersects(getBounds())) {
+        		xMove = -xMove;
+        		removeBrick = brick;
+        	}
+        }
+        
+        if(removeBrick != null) {
+        	game.getPanel().removeBrick(removeBrick);
+        	bricks = game.getPanel().getBricks();
+        	removeBrick = null;
         }
     }
 

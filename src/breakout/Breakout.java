@@ -31,6 +31,7 @@ public class Breakout extends JFrame {
         setBackground(Color.WHITE);
         setResizable(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setLocationRelativeTo(null);
         panel = new BreakoutPanel(this);
         add(panel);
         setVisible(true);

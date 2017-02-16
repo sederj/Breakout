@@ -73,13 +73,13 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
     private Color checkColor(int row) {
         switch (row) {
             case 0:
-            case 1: return Color.RED;
+            case 1: return Color.GREEN;
             case 2:
-            case 3: return Color.ORANGE;
+            case 3: return Color.YELLOW;
             case 4:
-            case 5: return Color.YELLOW;
+            case 5: return Color.ORANGE;
             case 6:
-            case 7: return Color.GREEN;
+            case 7: return Color.RED;
             case 8:
             case 9: return Color.CYAN;
         }
@@ -100,6 +100,10 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
      */
     public ArrayList<Brick> getBricks() {
     	return bricks;
+    }
+    
+    public void removeBrick(Brick brick) {
+    	bricks.remove(brick);
     }
 
     /**

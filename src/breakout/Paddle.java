@@ -41,9 +41,9 @@ public class Paddle {
      * prevent it from moving off the screen to the left or right
      */
     public void update() {
-        if (x > (WIDTH + 29) && x < game.getWidth() - WIDTH - 29)
+        if (x > (10) && x < game.getWidth() - WIDTH - 29)
             x += xMove;
-        else if (x <= (WIDTH + 29)) //less than or equal to, because when speed is above 3 it will skip past this #
+        else if (x <= (10)) //less than or equal to, because when speed is above 3 it will skip past this #
             x+= 5;
         else if (x >= game.getWidth() - WIDTH - 29)
             x-= 3;
