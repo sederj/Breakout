@@ -7,13 +7,13 @@ import java.awt.Rectangle;
 public class Brick {
 	
 	/** Dimensions of brick object */
-	private final int HEIGHT = 10, WIDTH = 60;
+	private final int HEIGHT, WIDTH;
 	
 	/** Distance between each brick object */
-	private final int BRICK_SEPARATION = 0;
+	private final int BRICK_SEPARATION = 5;
 	
 	/** Distance between the paddle and the lowest row of bricks */
-	private final int PADDLE_BRICK_DIST = 500;
+	private final int PADDLE_BRICK_DIST = 450;
 	
 	/** Starting coordinates of brick objects */
 	private int startX, startY;
@@ -31,8 +31,10 @@ public class Brick {
 	 * @param y vertical position of brick
 	 */
 	public Brick(Breakout game, int col, int row, Color color) {
+		HEIGHT = 20;
+		WIDTH = (game.getWidth() - (BreakoutPanel.getNumBricksInRow() - 0) * BRICK_SEPARATION) / BreakoutPanel.getNumBricksInRow();
 		this.color = color;
-		startX = game.getWidth() - (WIDTH / 2);
+		startX = game.getWidth() - (WIDTH + 4 * BRICK_SEPARATION);
 		startY = game.getHeight() - PADDLE_BRICK_DIST - (HEIGHT / 2);
 		x = startX - col * (WIDTH + BRICK_SEPARATION);
 		y = startY - row * (HEIGHT + BRICK_SEPARATION);

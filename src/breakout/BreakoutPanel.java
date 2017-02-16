@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -40,12 +39,12 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
     private int score;
     
     /** number of rows of bricks */
-    private final int NUM_BRICK_ROWS = 8;
+    private static final int NUM_BRICK_ROWS = 8;
     
     /** number of bricks in each row */
-    private final int NUM_BRICKS_IN_ROW = 10;
+    private static final int NUM_BRICKS_IN_ROW = 10;
 
-    /**
+	/**
      * public constructor for BreakoutPanel. Adds ball and player to 
      * the game panel.
      * @param game the current Breakout game
@@ -154,6 +153,14 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
     public void keyTyped(KeyEvent e) {
         ;
     }
+    
+    public static int getNumBrickRows() {
+		return NUM_BRICK_ROWS;
+	}
+
+	public static int getNumBricksInRow() {
+		return NUM_BRICKS_IN_ROW;
+	}
 
     /**
      * override method that prints the game score and paints the ball and player paddle

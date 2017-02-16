@@ -35,7 +35,6 @@ public class Ball {
 		this.game = game;
         x = game.getWidth() / 2;
         y = game.getHeight() / 2;
-        bricks = game.getPanel().getBricks();
 	}
 	
 	/**
@@ -74,6 +73,9 @@ public class Ball {
 	 * Checks if ball intersects with player's paddle or bricks. If so, vertical direction of the ball reverses
 	 */
 	public void checkCollision() {
+		if (bricks == null)
+			bricks = game.getPanel().getBricks();
+
         if (game.getPanel().getPlayer().getBounds().intersects(getBounds())) 
         	yMove = -yMove;
         

@@ -41,7 +41,7 @@ public class Breakout extends JFrame {
      * @return panel current Breakout game panel
      */
     public BreakoutPanel getPanel() {
-        return panel;
+         return panel;
     }
 
     /**
