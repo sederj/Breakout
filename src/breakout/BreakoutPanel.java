@@ -2,11 +2,22 @@ package breakout;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.Line;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -43,6 +54,16 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
     
     /** number of bricks in each row */
     private static final int NUM_BRICKS_IN_ROW = 10;
+    
+    private Image explosion;
+    
+    private Image breakoutMenu;
+    
+    private long explosionTimer;
+    
+    private Clip explosionSound;
+    
+    private boolean menu;
 
 	/**
      * public constructor for BreakoutPanel. Adds ball and player to 
@@ -55,6 +76,21 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
         createBricks();
         ball = new Ball(game);
         player = new Paddle(game, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT);
+        
+        explosion = new ImageIcon("explosion.gif").getImage();
+        try {
+			breakoutMenu = ImageIO.read(new File("breakoutmenu.png"));
+			explosionSound = (Clip) AudioSystem.getLine(new Line.Info(Clip.class));
+			explosionSound.open(AudioSystem.getAudioInputStream(new File("explosionsound.wav")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
+		} catch (UnsupportedAudioFileException e) {
+			e.printStackTrace();
+		}
+        
+        menu = true;
         Timer timer = new Timer(5, this);
         timer.start();
         addKeyListener(this);
@@ -125,6 +161,9 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
      * method to update the position of the ball and the player's paddle
      */
     private void update() {
+    	if (menu || System.currentTimeMillis() - explosionTimer <= 1000) {
+        	return;
+        }
         ball.update();
         player.update();
     }
@@ -141,6 +180,11 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
      * listener for keyboard strokes. Used when left or right arrow key are pressed
      */
     public void keyPressed(KeyEvent e) {
+    	if (menu) {
+    		menu = false;
+    		explosionTimer = System.currentTimeMillis();
+    		return;
+    	}
         player.pressed(e.getKeyCode());
     }
 
@@ -172,11 +216,26 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawString(game.getPanel().getScore() + " : " + game.getPanel().getScore(), game.getWidth() / 2, 10);
-        ball.paint(g);
-        player.paint(g);
-        for (Brick brick : bricks) {
-        	brick.paint(g);
+        if (menu) {
+        	drawMenu(g);
+        }else if (System.currentTimeMillis() - explosionTimer <= 1000) {
+        	drawExplosion(g);
+        }else {
+        	 g.drawString(game.getPanel().getScore() + " : " + game.getPanel().getScore(), game.getWidth() / 2, 10);
+             ball.paint(g);
+             player.paint(g);
+             for (Brick brick : bricks) {
+             	brick.paint(g);
+             }
         }
+    }
+    
+    public void drawMenu(Graphics g) {
+    	g.drawImage(breakoutMenu, 0, 0, this);
+    }
+    
+    public void drawExplosion(Graphics g) {
+    	g.drawImage(explosion, 0, 0, this);
+    	explosionSound.start();
     }
 }
