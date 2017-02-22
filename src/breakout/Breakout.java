@@ -8,7 +8,7 @@ import javax.swing.JFrame;
  * It creates a panel object and starts the Breakout game.
  * 
  * @author Joey Seder, Jacob McCloughan, Jonah Bukowsky
- * @version 2/12/17
+ * @version 2/22/17
  */
 public class Breakout extends JFrame {
 	

@@ -1,6 +1,7 @@
 package breakout;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -10,7 +11,6 @@ import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioSystem;
@@ -144,7 +144,6 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
     
     public void removeBrick(Brick brick) {
     	increaseScore(brick.getRow());
-    	System.out.println(this.score);
     	bricks.remove(brick);
     }
 
@@ -233,13 +232,14 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        g.setFont(new Font("Tahoma", Font.BOLD, 14));
         if (menu) {
         	drawMenu(g);
         }else if (System.currentTimeMillis() - explosionTimer <= 1000) {
         	drawExplosion(g);
         	this.startTime = System.currentTimeMillis();
         }else {
-        	g.drawString("Score: " + game.getPanel().getScore(), 
+        	 g.drawString("Score: " + game.getPanel().getScore(), 
         			 game.getWidth() / 4, 10);
         	 g.drawString("Time: " + (System.currentTimeMillis() - this.startTime) / 1000, 
         			 game.getWidth() - game.getWidth() / 4, 10);
