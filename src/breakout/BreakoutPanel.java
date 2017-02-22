@@ -10,6 +10,7 @@ import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioSystem;
@@ -27,7 +28,7 @@ import javax.swing.Timer;
  * the game display and listen for keystrokes for the game.
  * 
  * @author Joey Seder, Jacob McCloughan, Jonah Bukowsky
- * @version 2/12/17
+ * @version 2/22/17
  */
 public class BreakoutPanel extends JPanel implements ActionListener, KeyListener{
 	
@@ -54,6 +55,8 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
     
     /** number of bricks in each row */
     private static final int NUM_BRICKS_IN_ROW = 10;
+    
+    private long startTime;
     
     private Image explosion;
     
@@ -93,6 +96,7 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
         menu = true;
         Timer timer = new Timer(5, this);
         timer.start();
+        this.startTime = System.currentTimeMillis();
         addKeyListener(this);
         setFocusable(true);
     }
@@ -139,14 +143,27 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
     }
     
     public void removeBrick(Brick brick) {
+    	increaseScore(brick.getRow());
+    	System.out.println(this.score);
     	bricks.remove(brick);
     }
 
     /**
      * method to increment score when the ball breaks a brick
      */
-    public void increaseScore() {
-        //score++;//remove this to debug, so it never reaches 10
+    public void increaseScore(int row) {
+    	if (checkColor(row) == Color.RED) {
+    		this.score = this.score + 7;
+    	}
+    	if (checkColor(row) == Color.ORANGE) {
+    		this.score = this.score + 5;
+    	}
+    	if (checkColor(row) == Color.YELLOW) {
+    		this.score = this.score + 3;
+    	}
+    	if (checkColor(row) == Color.GREEN) {
+    		this.score = this.score + 1;
+    	}
     }
 
     /**
@@ -154,7 +171,7 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
      * @return score players current score
      */
     public int getScore() {
-        return score;
+        return this.score;
     }
 
     /**
@@ -220,8 +237,12 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
         	drawMenu(g);
         }else if (System.currentTimeMillis() - explosionTimer <= 1000) {
         	drawExplosion(g);
+        	this.startTime = System.currentTimeMillis();
         }else {
-        	 g.drawString(game.getPanel().getScore() + " : " + game.getPanel().getScore(), game.getWidth() / 2, 10);
+        	g.drawString("Score: " + game.getPanel().getScore(), 
+        			 game.getWidth() / 4, 10);
+        	 g.drawString("Time: " + (System.currentTimeMillis() - this.startTime) / 1000, 
+        			 game.getWidth() - game.getWidth() / 4, 10);
              ball.paint(g);
              player.paint(g);
              for (Brick brick : bricks) {

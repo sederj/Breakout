@@ -22,6 +22,9 @@ public class Brick {
 	/** Coordinates of Brick object */
 	private int x, y;
 	
+	/** The row of the Brick object. */
+	private int row;
+	
 	/** Color of brick object */
 	private Color color;
 	
@@ -39,6 +42,7 @@ public class Brick {
 		startY = game.getHeight() - PADDLE_BRICK_DIST - (HEIGHT / 2);
 		x = startX - col * (WIDTH + BRICK_SEPARATION);
 		y = startY - row * (HEIGHT + BRICK_SEPARATION);
+		this.row = row;
 	}
 	
 	/**
@@ -84,6 +88,10 @@ public class Brick {
      */
     public Line2D getRightBound() {
     	return new Line2D.Double(x + WIDTH, y, x + WIDTH, y + HEIGHT);
+    }
+    
+    public int getRow() {
+    	return this.row;
     }
     
     /**
