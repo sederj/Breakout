@@ -12,13 +12,13 @@ import javax.swing.JFrame;
  */
 public class Breakout extends JFrame {
 	
-	/** default serial version UID */
+	/** default serial version UID. */
 	private static final long serialVersionUID = 1L;
 
-	/** Dimensions of java panel */
-    private final static int WIDTH = 1000, HEIGHT = 750;
+	/** Dimensions of java panel. */
+    private final int WIDTH = 1000, HEIGHT = 750;
     
-    /** panel which will hold current Breakout game */
+    /** panel which will hold current Breakout game. */
     private BreakoutPanel panel;
 
     /**
@@ -38,7 +38,7 @@ public class Breakout extends JFrame {
     }
 
     /**
-     * Getter method for game panel
+     * Getter method for game panel.
      * @return panel current Breakout game panel
      */
     public BreakoutPanel getPanel() {
@@ -46,10 +46,11 @@ public class Breakout extends JFrame {
     }
 
     /**
-     * Main method which runs Breakout game
-     * @param args
+     * Main method which runs Breakout game.
+     * @param args arguments for running game
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         new Breakout();
     }
 }
+

@@ -23,34 +23,38 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  */
 public class Ball {
 	
-	/** Dimensions of ball object */
+	/** Dimensions of ball object. */
 	private static final int WIDTH = 15, HEIGHT = 15;
 	
-	/** private instance of Breakout game */
+	/** private instance of Breakout game. */
 	private Breakout game;
 	
-	/** x and y are starting coordinates, xMove and yMove are how much the ball will move with each update */
+	/** x and y are starting coordinates, 
+	 * xMove and yMove are how much the ball will move with each update. */
     private int x, y, xMove = 2, yMove = 2;
     
-    /** Arraylist of brick objects */
+    /** Arraylist of brick objects. */
     private ArrayList<Brick> bricks;
     
-    /** Brick object to be removed after arraylist iteration */
+    /** Brick object to be removed after arraylist iteration. */
     private Brick removeBrick;
     
+    /** object for the sound clip. */
     private Clip clip;
     
+    /** stream for the audio clip. */
     private AudioInputStream bounceStream;
 
     /**
      * Public constructor for ball object. Places ball in center of screen
-     * @param game current game of Breakout being played
+     * @param mGame current game of Breakout being played
      */
-	public Ball(Breakout game)
-	{
+	public Ball(final Breakout mGame) {
 		try {
-			bounceStream = AudioSystem.getAudioInputStream(new File("bouncesound.wav"));
-			clip = (Clip) AudioSystem.getLine(new Line.Info(Clip.class));
+			bounceStream = AudioSystem.getAudioInputStream(
+					new File("bouncesound.wav"));
+			clip = (Clip) AudioSystem.getLine(
+					new Line.Info(Clip.class));
 			clip.open(bounceStream);
 		} catch (LineUnavailableException e) {
 			e.printStackTrace();
@@ -60,24 +64,27 @@ public class Ball {
 			e.printStackTrace();
 		}
 		
-		this.game = game;
+		this.game = mGame;
         x = game.getWidth() / 2;
         y = game.getHeight() / 2;
 	}
 	
 	/**
-	 * Updates the position of the ball object. Contains logic to continue ball path
-	 * and update position based on if the ball hits the sides of the screen or the 
-	 * player's paddle.
+	 * Updates the position of the ball object. 
+	 * Contains logic to continue ball path
+	 * and update position based on if the ball 
+	 * hits the sides of the screen or the player's paddle.
 	 */
 	public void update() {
 		x += xMove;
         y += yMove;
 
-        if (x < 0 || x > game.getWidth() - WIDTH - 29)
+        if (x < 0 || x > game.getWidth() - WIDTH - 29) {
             xMove = -xMove;
-        if (y < 0)
+        }
+        if (y < 0) {
         	yMove = -yMove;
+        }
 
         // TODO: add logic to update score. 
         // TODO: add logic to update lives when ball passes below paddle
@@ -90,13 +97,16 @@ public class Ball {
 	}
 	
 	/**
-	 * Checks if ball intersects with player's paddle or bricks. If so, vertical direction of the ball reverses
+	 * Checks if ball intersects with player's paddle or bricks. 
+	 * If so, vertical direction of the ball reverses
 	 * @throws IOException 
 	 * @throws LineUnavailableException 
 	 */
-	public void checkCollision() throws LineUnavailableException, IOException {
-		if (bricks == null)
+	public void checkCollision() 
+			throws LineUnavailableException, IOException {
+		if (bricks == null) {
 			bricks = game.getPanel().getBricks();
+		}
 
         if (game.getPanel().getPlayer().getBounds().intersects(getBounds())) {
         	yMove = -yMove;
@@ -106,15 +116,16 @@ public class Ball {
     		clip.start();
         }
         for (Brick brick : bricks) {
-        	if (brick.getBottomBound().intersects(getBounds()) || brick.getTopBound().intersects(getBounds())) { 
+        	if (brick.getBottomBound().intersects(getBounds()) || 
+        			brick.getTopBound().intersects(getBounds())) { 
         		yMove = -yMove;
         		removeBrick = brick;
         		clip.stop();
         		clip.flush();
         		clip.setFramePosition(0);
         		clip.start();
-        	}
-        	else if (brick.getLeftBound().intersects(getBounds()) || brick.getRightBound().intersects(getBounds())) {
+        	} else if (brick.getLeftBound().intersects(getBounds()) || 
+        			brick.getRightBound().intersects(getBounds())) {
         		xMove = -xMove;
         		removeBrick = brick;
         		clip.stop();
@@ -132,7 +143,7 @@ public class Ball {
     }
 
 	/**
-	 * getter method for the bounds of the ball object
+	 * getter method for the bounds of the ball object.
 	 * @return Rectangle object representing bounds of ball object
 	 */
     public Rectangle getBounds() {
@@ -140,10 +151,10 @@ public class Ball {
     }
     
     /**
-     * creates the visual display for ball object
+     * creates the visual display for ball object.
      * @param g the graphic to create on screen
      */
-    public void paint(Graphics g) {
+    public void paint(final Graphics g) {
         g.fillRect(x, y, WIDTH, HEIGHT);
     }
 }

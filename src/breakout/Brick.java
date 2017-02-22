@@ -5,27 +5,35 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.geom.Line2D;
 
+/**
+ * Class contianing logic for each brick.
+ * Includes logic to set the size of brick
+ * and provide information on brick objects
+ * 
+ * @author Joey Seder, Jacob McCloughan, Jonah Bukowsky
+ * @version 2/22/17
+ */
 public class Brick {
 	
-	/** Dimensions of brick object */
+	/** Dimensions of brick object. */
 	private final int HEIGHT, WIDTH;
 	
-	/** Distance between each brick object */
+	/** Distance between each brick object. */
 	private final int BRICK_SEPARATION = 3;
 	
-	/** Distance between the paddle and the lowest row of bricks */
+	/** Distance between the paddle and the lowest row of bricks. */
 	private final int PADDLE_BRICK_DIST = 450;
 	
-	/** Starting coordinates of brick objects */
+	/** Starting coordinates of brick objects. */
 	private int startX, startY;
 	
-	/** Coordinates of Brick object */
+	/** Coordinates of Brick object. */
 	private int x, y;
 	
 	/** The row of the Brick object. */
 	private int row;
 	
-	/** Color of brick object */
+	/** Color of brick object. */
 	private Color color;
 	
 	/**

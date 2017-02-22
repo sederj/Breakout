@@ -3,37 +3,45 @@ package breakout;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
+/**
+ * Class to contain logic for player paddle object.
+ * Contains logic to set the size and movement of paddle
+ * 
+ * @author Joey Seder, Jacob McCloughan, Jonah Bukowsky
+ * @version 2/22/17
+ */
 public class Paddle {
 	
-	/** Dimensions of player paddle */
+	/** Dimensions of player paddle. */
 	private static final int WIDTH = 60, HEIGHT = 10;
 	
-	/** Breakout game object */
+	/** Breakout game object. */
     private Breakout game;
     
-    /** ints for left and right keystrokes */
+    /** ints for left and right keystrokes. */
     private int left, right;
     
-    /** position of paddle */
+    /** position of paddle. */
     private int x, y;
     
-    /** Speed of horizontal paddle movement */
+    /** Speed of horizontal paddle movement. */
     private int xMove;
 
     /**
      * Public constructor for paddle object. Sets the starting position
      * of the paddle and the ints for the left and right keystrokes
      * 
-     * @param game current Breakout game object
-     * @param left Left keystroke int
-     * @param right Right keystroke int
+     * @param mGame current Breakout game object
+     * @param mLeft Left keystroke int
+     * @param mRight Right keystroke int
      */
-    public Paddle(Breakout game, int left, int right) {
-        this.game = game;
+    public Paddle(final Breakout mGame, final int mLeft, 
+    		final int mRight) {
+        this.game = mGame;
         x = game.getWidth() / 2;
         y = game.getHeight() - 80;
-        this.left = left;
-        this.right = right;
+        this.left = mLeft;
+        this.right = mRight;
     }
 
     /**
@@ -41,12 +49,15 @@ public class Paddle {
      * prevent it from moving off the screen to the left or right
      */
     public void update() {
-        if (x > (10) && x < game.getWidth() - WIDTH - 29)
+        if (x > (10) && x < game.getWidth() - WIDTH - 29) {
             x += xMove;
-        else if (x <= (10)) //less than or equal to, because when speed is above 3 it will skip past this #
+        } else if (x <= (10))  {
+        	//less than or equal to, because when speed 
+            //is above 3 it will skip past this #
             x+= 5;
-        else if (x >= game.getWidth() - WIDTH - 29)
+        } else if (x >= game.getWidth() - WIDTH - 29) {
             x-= 3;
+        }
     }
 
     /**
@@ -55,11 +66,12 @@ public class Paddle {
      * 
      * @param keyCode the code for the key pressed, left or right
      */
-    public void pressed(int keyCode) {
-        if (keyCode == left)
+    public void pressed(final int keyCode) {
+        if (keyCode == left) {
             xMove = -3; //speed of paddle movement
-        else if (keyCode == right)
+        } else if (keyCode == right) {
             xMove = 3; //speed of paddle movement
+        }
     }
 
     /**
@@ -68,13 +80,14 @@ public class Paddle {
      * 
      * @param keyCode the code of the key being released
      */
-    public void released(int keyCode) {
-        if (keyCode == left || keyCode == right)
+    public void released(final int keyCode) {
+        if (keyCode == left || keyCode == right) {
             xMove = 0;
+        }
     }
 
     /**
-     * getter method for the bounds of the player paddle
+     * getter method for the bounds of the player paddle.
      * 
      * @return a rectangle object representing the bounds of the paddle
      */
@@ -83,11 +96,11 @@ public class Paddle {
     }
 
     /**
-     * Paints the panel rectangle object
+     * Paints the panel rectangle object.
      * 
      * @param g the paddle object being painted
      */
-    public void paint(Graphics g) {
+    public void paint(final Graphics g) {
         g.fillRect(x, y, WIDTH, HEIGHT);
     }
 }

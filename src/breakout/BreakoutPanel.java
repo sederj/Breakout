@@ -30,61 +30,71 @@ import javax.swing.Timer;
  * @author Joey Seder, Jacob McCloughan, Jonah Bukowsky
  * @version 2/22/17
  */
-public class BreakoutPanel extends JPanel implements ActionListener, KeyListener{
+public class BreakoutPanel 
+		extends JPanel implements ActionListener, KeyListener{
 	
-	/** default serial version UID */
+	/** default serial version UID. */
 	private static final long serialVersionUID = 1L;
 
-	/** instance of Breakout game */
+	/** instance of Breakout game. */
 	private Breakout game;
 	
-	/** ball object to be placed on panel */
+	/** ball object to be placed on panel. */
     private Ball ball;
     
-    /** player's paddle to be placed on panel */
+    /** player's paddle to be placed on panel. */
     private Paddle player;
     
-    /** Arraylist of brick objects */
+    /** Arraylist of brick objects. */
     private ArrayList<Brick> bricks = new ArrayList<Brick>();
     
-    /** the player's current score */
+    /** the player's current score. */
     private int score;
     
-    /** number of rows of bricks */
+    /** number of rows of bricks. */
     private static final int NUM_BRICK_ROWS = 8;
     
-    /** number of bricks in each row */
+    /** number of bricks in each row. */
     private static final int NUM_BRICKS_IN_ROW = 10;
     
+    /** starting time for timer. */
     private long startTime;
     
+    /** image for explosion graphic. */
     private Image explosion;
     
+    /** image for breakout menu. */
     private Image breakoutMenu;
     
+    /** time length for the explosion graphic. */
     private long explosionTimer;
     
+    /** sound clip for explosion sound. */
     private Clip explosionSound;
     
+    /** boolean for menu option. */
     private boolean menu;
 
 	/**
      * public constructor for BreakoutPanel. Adds ball and player to 
      * the game panel.
-     * @param game the current Breakout game
+     * @param mGame the current Breakout game
      */
-    public BreakoutPanel(Breakout game) {
+    public BreakoutPanel(final Breakout mGame) {
         setBackground(Color.WHITE);
-        this.game = game;
+        this.game = mGame;
         createBricks();
         ball = new Ball(game);
         player = new Paddle(game, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT);
         
         explosion = new ImageIcon("explosion.gif").getImage();
         try {
-			breakoutMenu = ImageIO.read(new File("breakoutmenu.png"));
-			explosionSound = (Clip) AudioSystem.getLine(new Line.Info(Clip.class));
-			explosionSound.open(AudioSystem.getAudioInputStream(new File("explosionsound.wav")));
+			breakoutMenu = ImageIO.read(
+					new File("breakoutmenu.png"));
+			explosionSound = (Clip) AudioSystem.getLine(
+					new Line.Info(Clip.class));
+			explosionSound.open(AudioSystem.getAudioInputStream(
+					new File("explosionsound.wav")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (LineUnavailableException e) {
@@ -101,6 +111,10 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
         setFocusable(true);
     }
     
+    /**
+     * method to generate the bricks for breakout game.
+     * adds bricks to an arraylist of brick objects
+     */
     public void createBricks() {
     	for (int row = 0; row < NUM_BRICK_ROWS; row++) {
     		Color rowColor = checkColor(row);
@@ -110,7 +124,13 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
     	}
     }
     
-    private Color checkColor(int row) {
+    /**
+     * method to set the correct color to each
+     * row of bricks.
+     * @param row the row to set the color of
+     * @return Color object
+     */
+    private Color checkColor(final int row) {
         switch (row) {
             case 0:
             case 1: return Color.GREEN;
@@ -121,9 +141,8 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
             case 6:
             case 7: return Color.RED;
             case 8:
-            case 9: return Color.CYAN;
+            default: return Color.CYAN;   
         }
-        return Color.CYAN;
     }
 
     /**
@@ -135,22 +154,28 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
     }
     
     /**
-     * Getter method for the arraylist of bricks
+     * Getter method for the arraylist of bricks.
      * @return bricks an arraylist of all brick objects
      */
     public ArrayList<Brick> getBricks() {
     	return bricks;
     }
     
-    public void removeBrick(Brick brick) {
+    /**
+     * method to remove specified brick from 
+     * bricks ArrayList.
+     * @param brick brick object to be removed
+     */
+    public void removeBrick(final Brick brick) {
     	increaseScore(brick.getRow());
     	bricks.remove(brick);
     }
 
     /**
-     * method to increment score when the ball breaks a brick
+     * method to increment score when the ball breaks a brick.
+     * @param row decides how much to increment score by
      */
-    public void increaseScore(int row) {
+    public void increaseScore(final int row) {
     	if (checkColor(row) == Color.RED) {
     		this.score = this.score + 7;
     	}
@@ -166,7 +191,7 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
     }
 
     /**
-     * Getter method for the player's score
+     * Getter method for the player's score.
      * @return score players current score
      */
     public int getScore() {
@@ -174,7 +199,7 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
     }
 
     /**
-     * method to update the position of the ball and the player's paddle
+     * method to update the position of the ball and the player's paddle.
      */
     private void update() {
     	if (menu || System.currentTimeMillis() - explosionTimer <= 1000) {
@@ -185,17 +210,20 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
     }
 
     /**
-     * implemented method from ActionListener
+     * implemented method from ActionListener.
+     * @param e the action performed
      */
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(final ActionEvent e) {
         update();
         repaint();
     }
 
     /**
-     * listener for keyboard strokes. Used when left or right arrow key are pressed
+     * listener for keyboard strokes. 
+     * Used when left or right arrow key are pressed
+     * @param e the action performed
      */
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(final KeyEvent e) {
     	if (menu) {
     		menu = false;
     		explosionTimer = System.currentTimeMillis();
@@ -205,32 +233,45 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
     }
 
     /**
-     * listener for keyboard release. Used when left or right arrow key are released
+     * listener for keyboard release. 
+     * Used when left or right arrow key are released
+     * @param e the key action performed
      */
-    public void keyReleased(KeyEvent e) {
+    public void keyReleased(final KeyEvent e) {
         player.released(e.getKeyCode());
     }
 
     /**
-     * implemented listener from KeyListener
+     * implemented listener from KeyListener.
+     * @param e the key action performed
      */
-    public void keyTyped(KeyEvent e) {
-        ;
+    public void keyTyped(final KeyEvent e) {
+        return;
     }
     
+    /**
+     * getter method for the number of rows of bricks.
+     * @return the number of rows of bricks
+     */
     public static int getNumBrickRows() {
 		return NUM_BRICK_ROWS;
 	}
 
+    /**
+     * getter method for number of bricks in a row.
+     * @return the number of bricks in a row
+     */
 	public static int getNumBricksInRow() {
 		return NUM_BRICKS_IN_ROW;
 	}
 
     /**
-     * override method that prints the game score and paints the ball and player paddle
+     * override method that prints the game 
+     * score and paints the ball and player paddle.
+     * @param g the graphic object to paint
      */
     @Override
-    public void paintComponent(Graphics g) {
+    public void paintComponent(final Graphics g) {
         super.paintComponent(g);
         g.setFont(new Font("Tahoma", Font.BOLD, 14));
         if (menu) {
@@ -241,7 +282,8 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
         }else {
         	 g.drawString("Score: " + game.getPanel().getScore(), 
         			 game.getWidth() / 4, 10);
-        	 g.drawString("Time: " + (System.currentTimeMillis() - this.startTime) / 1000, 
+        	 g.drawString("Time: " + (System.currentTimeMillis() - 
+        			 this.startTime) / 1000, 
         			 game.getWidth() - game.getWidth() / 4, 10);
              ball.paint(g);
              player.paint(g);
@@ -251,11 +293,19 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
         }
     }
     
-    public void drawMenu(Graphics g) {
+    /**
+     * method to draw the breakout menu.
+     * @param g the graphic object to draw it on
+     */
+    public void drawMenu(final Graphics g) {
     	g.drawImage(breakoutMenu, 0, 0, this);
     }
     
-    public void drawExplosion(Graphics g) {
+    /**
+     * method to draw explosion graphic.
+     * @param g the graphic to draw it on
+     */
+    public void drawExplosion(final Graphics g) {
     	g.drawImage(explosion, 0, 0, this);
     	explosionSound.start();
     }
