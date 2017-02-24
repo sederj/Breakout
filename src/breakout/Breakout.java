@@ -6,18 +6,18 @@ import javax.swing.JFrame;
 /**
  * This is the runner method for the breakout game.
  * It creates a panel object and starts the Breakout game.
- * 
+ *
  * @author Joey Seder, Jacob McCloughan, Jonah Bukowsky
  * @version 2/22/17
  */
 public class Breakout extends JFrame {
-	
+
 	/** default serial version UID. */
 	private static final long serialVersionUID = 1L;
 
 	/** Dimensions of java panel. */
     private final int WIDTH = 1000, HEIGHT = 750;
-    
+
     /** panel which will hold current Breakout game. */
     private BreakoutPanel panel;
 
