@@ -2,7 +2,6 @@ package breakout;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.geom.Line2D;
 
 /**
@@ -59,15 +58,6 @@ public class Brick {
 		y = startY - r * (HEIGHT + BRICK_SEPARATION);
 		this.row = r;
 	}
-
-	/**
-     * getter method for the bounds of the brick..
-     *
-     * @return a rectangle object representing the bounds of the brick object
-     */
-    public Rectangle getBounds() {
-        return new Rectangle(x, y, WIDTH, HEIGHT);
-    }
 
     /**
      * Getter method for the top bound of brick.

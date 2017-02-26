@@ -142,11 +142,8 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
 		case 5:
 			return Color.ORANGE;
 		case 6:
-		case 7:
-			return Color.RED;
-		case 8:
 		default:
-			return Color.CYAN;
+			return Color.RED;
 		}
 	}
 
@@ -217,7 +214,9 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
 			return;
 		}
 		if (this.checkLoss()) {
-			JOptionPane.showMessageDialog(null, "You lose!", "Failure", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, "You lose!" + "\nScore: " + this.score 
+					+ "\nTime: " + (System.currentTimeMillis() - startTime) / 1000, 
+					"Failure", JOptionPane.WARNING_MESSAGE);
 			System.exit(0);
 		}
 		if (this.checkWin()) {
@@ -276,15 +275,6 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
 	 */
 	public void keyTyped(final KeyEvent e) {
 		return;
-	}
-
-	/**
-	 * getter method for the number of rows of bricks.
-	 *
-	 * @return the number of rows of bricks
-	 */
-	public static int getNumBrickRows() {
-		return NUM_BRICK_ROWS;
 	}
 
 	/**
@@ -348,9 +338,9 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
 	/**
 	 * Checks if the game is over due to win.
 	 *
-	 * @return boolean based on if the game is over or not
+	 * @return boolean based on if the game is won.
 	 */
-	public boolean checkWin() {
+	private boolean checkWin() {
 		if (bricks.size() == 0) {
 			return true;
 		}
@@ -358,11 +348,11 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
 	}
 
 	/**
-	 * Checks if the player has lost.
+	 * Checks if the game is over due to loss.
 	 *
-	 * @return boolean based on if the player has lost
+	 * @return boolean based on if the player has lost.
 	 */
-	public boolean checkLoss() {
+	private boolean checkLoss() {
 		if (this.getHeight() == this.ball.getBounds().getY()) {
 			return true;
 		}
