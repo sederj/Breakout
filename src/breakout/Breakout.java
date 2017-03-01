@@ -15,8 +15,11 @@ public class Breakout extends JFrame {
 	/** default serial version UID. */
 	private static final long serialVersionUID = 1L;
 
-	/** Dimensions of java panel. */
-    private final int WIDTH = 1000, HEIGHT = 750;
+	/** Width dimension of Java panel. */
+    private static final int WIDTH = 1000;
+
+    /** Height dimension of Java panel. */
+    private static final int HEIGHT = 750;
 
     /** panel which will hold current Breakout game. */
     private BreakoutPanel panel;

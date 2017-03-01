@@ -31,7 +31,8 @@ import javax.swing.Timer;
  * @author Joey Seder, Jacob McCloughan, Jonah Bukowsky
  * @version 2/22/17
  */
-public class BreakoutPanel extends JPanel implements ActionListener, KeyListener {
+public class BreakoutPanel extends JPanel implements ActionListener,
+	KeyListener {
 
 	/** default serial version UID. */
 	private static final long serialVersionUID = 1L;
@@ -40,13 +41,13 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
 	private Breakout game;
 
 	/** ball object to be placed on panel. */
-	private Ball ball;
+	private transient Ball ball;
 
 	/** player's paddle to be placed on panel. */
-	private Paddle player;
+	private transient Paddle player;
 
 	/** Arraylist of brick objects. */
-	private ArrayList<Brick> bricks = new ArrayList<Brick>();
+	private transient ArrayList<Brick> bricks = new ArrayList<Brick>();
 
 	/** the player's current score. */
 	private int score;
@@ -61,23 +62,23 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
 	private long startTime;
 
 	/** image for explosion graphic. */
-	private Image explosion;
+	private transient Image explosion;
 
 	/** image for breakout menu. */
-	private Image breakoutMenu;
+	private transient Image breakoutMenu;
 
 	/** time length for the explosion graphic. */
 	private long explosionTimer;
 
 	/** sound clip for explosion sound. */
-	private Clip explosionSound;
+	private transient Clip explosionSound;
 
 	/** boolean for menu option. */
 	private boolean menu;
 
 	/**
-	 * public constructor for BreakoutPanel. Adds ball and player to the game
-	 * panel.
+	 * public constructor for BreakoutPanel. Adds ball and player
+	 * to the game panel.
 	 *
 	 * @param mGame
 	 *            the current Breakout game
@@ -91,9 +92,14 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
 
 		explosion = new ImageIcon("explosion.gif").getImage();
 		try {
-			breakoutMenu = ImageIO.read(new File("breakoutmenu.png"));
-			explosionSound = (Clip) AudioSystem.getLine(new Line.Info(Clip.class));
-			explosionSound.open(AudioSystem.getAudioInputStream(new File("explosionsound.wav")));
+			breakoutMenu
+			= ImageIO.read(new File("breakoutmenu.png"));
+
+			explosionSound
+			= (Clip) AudioSystem.getLine(new Line.Info(Clip.class));
+
+			explosionSound.open(AudioSystem.getAudioInputStream
+					(new File("explosionsound.wav")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (LineUnavailableException e) {
@@ -210,19 +216,28 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
 	 * method to update the position of the ball and the player's paddle.
 	 */
 	private void update() {
-		if (menu || System.currentTimeMillis() - explosionTimer <= 1000) {
+		if (menu || System.currentTimeMillis()
+				- explosionTimer <= 1000) {
 			return;
 		}
 		if (this.checkLoss()) {
-			JOptionPane.showMessageDialog(null, "You lose!" + "\nScore: " + this.score 
-					+ "\nTime: " + (System.currentTimeMillis() - startTime) / 1000, 
+			JOptionPane.showMessageDialog(null, "You lose!"
+					+ "\nScore: " + this.score
+					+ "\nTime: "
+					+ (System.currentTimeMillis()
+					- startTime) / 1000,
 					"Failure", JOptionPane.WARNING_MESSAGE);
+
 			System.exit(0);
 		}
 		if (this.checkWin()) {
 			JOptionPane.showMessageDialog(null,
-					"You win!\nScore: " + this.score + "\nTime: " + (System.currentTimeMillis() - startTime) / 1000,
-					"Victory", JOptionPane.INFORMATION_MESSAGE);
+					"You win!\nScore: " + this.score
+					+ "\nTime: "
+					+ (System.currentTimeMillis()
+					- startTime) / 1000, "Victory",
+					JOptionPane.INFORMATION_MESSAGE);
+
 			System.exit(0);
 		}
 		ball.update();
@@ -287,8 +302,8 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
 	}
 
 	/**
-	 * override method that prints the game score and paints the ball and player
-	 * paddle.
+	 * override method that prints the game score and paints the ball
+	 * and player paddle.
 	 *
 	 * @param g
 	 *            the graphic object to paint
@@ -299,13 +314,17 @@ public class BreakoutPanel extends JPanel implements ActionListener, KeyListener
 		g.setFont(new Font("Tahoma", Font.BOLD, 14));
 		if (menu) {
 			drawMenu(g);
-		} else if (System.currentTimeMillis() - explosionTimer <= 1000) {
+		} else if (System.currentTimeMillis()
+				- explosionTimer <= 1000) {
 			drawExplosion(g);
 			this.startTime = System.currentTimeMillis();
 		} else {
-			g.drawString("Score: " + game.getPanel().getScore(), game.getWidth() / 4, 10);
-			g.drawString("Time: " + (System.currentTimeMillis() - this.startTime) / 1000,
-					game.getWidth() - game.getWidth() / 4, 10);
+			g.drawString("Score: " + game.getPanel().getScore(),
+					game.getWidth() / 4, 10);
+			g.drawString("Time: " + (System.currentTimeMillis()
+					- this.startTime) / 1000,
+					game.getWidth() - game.getWidth()
+					/ 4, 10);
 			ball.paint(g);
 			player.paint(g);
 			for (Brick brick : bricks) {

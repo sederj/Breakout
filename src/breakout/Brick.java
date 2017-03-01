@@ -13,15 +13,17 @@ import java.awt.geom.Line2D;
  * @version 2/22/17
  */
 public class Brick {
+	/** Height dimension of brick object. */
+	private final int HEIGHT;
 
-	/** Dimensions of brick object. */
-	private final int HEIGHT, WIDTH;
+	/** Width dimension of brick object. */
+	private final int WIDTH;
 
 	/** Distance between each brick object. */
-	private final int BRICK_SEPARATION = 3;
+	private static final int BRICK_SEPARATION = 3;
 
 	/** Distance between the paddle and the lowest row of bricks. */
-	private final int PADDLE_BRICK_DIST = 450;
+	private static final int PADDLE_BRICK_DIST = 450;
 
 	/** Starting coordinates of brick objects. */
 	private int startX, startY;
