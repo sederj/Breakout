@@ -13,7 +13,7 @@ import java.awt.Rectangle;
 public class Paddle {
 
 	/** Dimensions of player paddle. */
-	private static final int WIDTH = 60, HEIGHT = 10;
+	private static final int WIDTH = 800, HEIGHT = 10;
 
 	/** Breakout game object. */
     private Breakout game;

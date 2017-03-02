@@ -106,7 +106,7 @@ public class BreakoutPanel extends JPanel implements ActionListener,
 			e.printStackTrace();
 		} catch (UnsupportedAudioFileException e) {
 			e.printStackTrace();
-		}
+		} 
 
 		menu = true;
 		Timer timer = new Timer(5, this);

@@ -157,3 +157,7 @@ public class Ball {
         g.fillRect(x, y, WIDTH, HEIGHT);
     }
 }
+
+
+
+
