@@ -98,8 +98,8 @@ public class BreakoutPanel extends JPanel implements ActionListener,
 			explosionSound
 			= (Clip) AudioSystem.getLine(new Line.Info(Clip.class));
 
-			explosionSound.open(AudioSystem.getAudioInputStream
-					(new File("explosionsound.wav")));
+			explosionSound.open(AudioSystem.getAudioInputStream(
+					new File("explosionsound.wav")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (LineUnavailableException e) {
@@ -378,3 +378,5 @@ public class BreakoutPanel extends JPanel implements ActionListener,
 		return false;
 	}
 }
+
+
