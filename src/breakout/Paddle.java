@@ -13,10 +13,10 @@ import java.awt.Rectangle;
 public class Paddle {
 
 	/** Dimensions of player paddle. */
-	private static final int WIDTH = 800, HEIGHT = 10;
+	private static final int WIDTH = 80, HEIGHT = 10;
 
 	/** Breakout game object. */
-    private Breakout game;
+    private BreakoutPanel game;
 
     /** ints for left and right keystrokes. */
     private int left, right;
@@ -35,11 +35,11 @@ public class Paddle {
      * @param mLeft Left keystroke int
      * @param mRight Right keystroke int
      */
-    public Paddle(final Breakout mGame, final int mLeft,
+    public Paddle(final BreakoutPanel mGame, final int mLeft,
     		final int mRight) {
         this.game = mGame;
-        x = game.getWidth() / 2;
-        y = game.getHeight() - 80;
+        x = game.getBreakoutWidth() / 2;
+        y = game.getBreakoutHeight() - 80;
         this.left = mLeft;
         this.right = mRight;
     }
@@ -49,13 +49,13 @@ public class Paddle {
      * prevent it from moving off the screen to the left or right
      */
     public void update() {
-        if (x > (10) && x < game.getWidth() - WIDTH - 29) {
+        if (x > (10) && x < game.getBreakoutWidth() - WIDTH - 29) {
             x += xMove;
         } else if (x <= (10))  {
         	//less than or equal to, because when speed
             //is above 3 it will skip past this #
             x += 5;
-        } else if (x >= game.getWidth() - WIDTH - 29) {
+        } else if (x >= game.getBreakoutWidth() - WIDTH - 29) {
             x -= 3;
         }
     }

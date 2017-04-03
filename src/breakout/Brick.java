@@ -41,22 +41,24 @@ public class Brick {
 	 * public constructor for Brick object. Sets the
 	 * horizontal and vertical position of brick object
 	 * @param game the game instance being used
-	 * @param col the column of the brick
+	 * @param cl the column of the brick
 	 * @param r the row of the brick
 	 * @param c the color of the brick
 	 */
-	public Brick(final Breakout game, final int col,
+	public Brick(final BreakoutPanel game, final int cl,
 			final int r, final Color c) {
 		HEIGHT = 22;
-		WIDTH = (game.getWidth()
-				- (BreakoutPanel.getNumBricksInRow() - 0)
+		WIDTH = (game.getBreakoutWidth()
+				- (BreakoutPanel.getNumBricksInRow())
 				* BRICK_SEPARATION)
 				/ BreakoutPanel.getNumBricksInRow() - 2;
 
 		this.color = c;
-		startX = game.getWidth() - (WIDTH + 4 * BRICK_SEPARATION);
-		startY = game.getHeight() - PADDLE_BRICK_DIST - (HEIGHT / 2);
-		x = startX - col * (WIDTH + BRICK_SEPARATION);
+		startX = game.getBreakoutWidth() - 
+				(WIDTH + 6 * BRICK_SEPARATION); 
+		startY = game.getBreakoutHeight() - 
+				PADDLE_BRICK_DIST - (HEIGHT / 2);
+		x = startX - cl * (WIDTH + BRICK_SEPARATION);
 		y = startY - r * (HEIGHT + BRICK_SEPARATION);
 		this.row = r;
 	}
