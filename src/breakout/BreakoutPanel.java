@@ -55,9 +55,16 @@ KeyListener {
 
 	/** Arraylist of brick objects. */
 	private transient ArrayList<Brick> bricks = new ArrayList<Brick>();
+	
+	/** Arraylist of score objests. */
+	private transient ArrayList<Score> scores = new ArrayList<Score>();
 
 	/** the player's current score. */
 	private int score;
+	
+	private int lives;
+	
+	private boolean end;
 
 	/** number of rows of bricks. */
 	private static final int NUM_BRICK_ROWS = 8;
@@ -108,6 +115,7 @@ KeyListener {
 		createBricks();
 		ball = new Ball(this);
 		player = new Paddle(this, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT);
+		lives = 3;
 
 		setOpenVid();
 
@@ -261,6 +269,24 @@ KeyListener {
 	public int getScore() {
 		return this.score;
 	}
+	
+	/**
+	 * Getter method for the player's lives.
+	 *
+	 * @return lives players current lives
+	 */
+	public int getLives() {
+		return this.lives;
+	}
+	
+	/**
+	 * Determines if the game is over.
+	 * 
+	 * @return end true if the game is over.
+	 */
+	public boolean getEnd() {
+		return this.end;
+	}
 
 	/**
 	 * method to update the position of the ball and the player's paddle.
@@ -270,34 +296,22 @@ KeyListener {
 				- explosionTimer <= 1000) {
 			return;
 		}
+
 		if (this.checkLoss()) {
-			JOptionPane.showMessageDialog(null, "You lose!"
-					+ "\nScore: " + this.score
-					+ "\nTime: "
-					+ (System.currentTimeMillis()
-							- startTime) / 1000,
-					"Failure", JOptionPane.WARNING_MESSAGE);
-
-			int reply = JOptionPane.showConfirmDialog(null, 
-					"Would you like to play again?", 
-					"Game Over", JOptionPane.YES_NO_OPTION);
-			if (reply == JOptionPane.NO_OPTION) {
-				System.exit(0);
-			} else if (reply == JOptionPane.YES_OPTION) {
-				getPanel().removeAll();
-				
-				explosion.flush();
-				menu = true;
-
-				createBricks();
+			this.lives--;
+			if (this.getLives() > 0)
 				ball = new Ball(getPanel());
-				player = new Paddle(getPanel(), 
-						KeyEvent.VK_LEFT, 
-						KeyEvent.VK_RIGHT);
-			} else if (reply == JOptionPane.CANCEL_OPTION) {
-				System.exit(0);
+			else if (!this.getEnd()) {
+				end = true;
+				JOptionPane.showMessageDialog(null, "You lose!"
+						+ "\nScore: " + this.score
+						+ "\nTime: "
+						+ (System.currentTimeMillis()
+								- startTime) / 1000,
+						"Failure", JOptionPane.WARNING_MESSAGE);
 			}
 		}
+
 		if (this.checkWin()) {
 			JOptionPane.showMessageDialog(null,
 					"You win!\nScore: " + this.score
@@ -322,6 +336,8 @@ KeyListener {
 				player = new Paddle(getPanel(), 
 						KeyEvent.VK_LEFT, 
 						KeyEvent.VK_RIGHT);
+				this.end = false;
+				this.lives = 3;
 			} else if (reply == JOptionPane.CANCEL_OPTION) {
 				System.exit(0);
 			}
@@ -401,11 +417,26 @@ KeyListener {
 			this.startTime = System.currentTimeMillis();
 		} else {
 			g.drawString("Score: " + this.getScore(),
-					getBreakoutWidth() / 4, 10);
-			g.drawString("Time: " + (System.currentTimeMillis()
-					- this.startTime) / 1000,
-					getBreakoutWidth() - getBreakoutWidth()
-					/ 4, 10);
+					getBreakoutWidth() / 6, 10);
+			if (!this.getEnd()) {
+				g.drawString("Time: " + (System.currentTimeMillis()
+						- this.startTime) / 1000,
+						getBreakoutWidth() - getBreakoutWidth()
+						/ 4, 10);
+			} else {
+				g.drawString("Time: End",
+						getBreakoutWidth() - getBreakoutWidth()
+						/ 4, 10);
+			}
+			if (lives >= 0) {
+				g.drawString("Lives: " + this.getLives(),
+						getBreakoutWidth() - getBreakoutWidth()
+						/ 2 - 30, 10);
+			} else {
+				g.drawString("Lives: 0",
+						getBreakoutWidth() - getBreakoutWidth()
+						/ 2 - 30, 10);
+			}
 			ball.paint(g);
 			player.paint(g);
 			for (Brick brick : bricks) {
@@ -509,6 +540,8 @@ KeyListener {
 				player = new Paddle(getPanel(), 
 						KeyEvent.VK_LEFT, 
 						KeyEvent.VK_RIGHT);
+				end = false;
+				lives = 3;
 
 			}
 			//to quit the game
