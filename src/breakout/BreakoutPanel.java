@@ -533,6 +533,14 @@ KeyListener {
 				getPanel().removeAll();
 				
 				explosion.flush();
+				try {
+					explosionSound
+					= (Clip) AudioSystem.getLine(new Line.Info(Clip.class));
+					
+					explosionSound.open(AudioSystem.getAudioInputStream(
+							new File("explosionsound.wav")));
+				} catch (Exception ex) {
+					ex.printStackTrace(); }
 				menu = true;
 				
 				createBricks();
