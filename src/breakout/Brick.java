@@ -52,7 +52,6 @@ public class Brick {
 				- (BreakoutPanel.getNumBricksInRow() - 0)
 				* BRICK_SEPARATION)
 				/ BreakoutPanel.getNumBricksInRow() - 2;
-
 		this.color = c;
 		startX = game.getWidth() - (WIDTH + 4 * BRICK_SEPARATION);
 		startY = game.getHeight() - PADDLE_BRICK_DIST - (HEIGHT / 2);
