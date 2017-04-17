@@ -15,37 +15,31 @@ public class Breakout extends JFrame {
 	/** default serial version UID. */
 	private static final long serialVersionUID = 1L;
 
-	/** Width dimension of Java panel. */
-    private static final int WIDTH = 1000;
-
-    /** Height dimension of Java panel. */
-    private static final int HEIGHT = 750;
-
     /** panel which will hold current Breakout game. */
     private BreakoutPanel panel;
+    
+    /** JFrame object to hold game frame. */
+    private static JFrame frame;
 
     /**
      * public constructor for Breakout game. Creates panel which will
      * hold the Breakout game
      */
     public Breakout() {
-        setSize(WIDTH, HEIGHT);
-        setTitle("Breakout");
-        setBackground(Color.WHITE);
-        setResizable(true);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null);
-        panel = new BreakoutPanel(this);
-        add(panel);
-        setVisible(true);
-    }
+    	frame = new JFrame("Breakout");
+        frame.setBackground(Color.WHITE);
+        frame.setResizable(true);
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        panel = new BreakoutPanel();
+        frame.getContentPane().add(panel);
+        frame.setJMenuBar(panel.getMenu());
 
-    /**
-     * Getter method for game panel.
-     * @return panel current Breakout game panel
-     */
-    public BreakoutPanel getPanel() {
-         return panel;
+        frame.pack();
+        frame.setSize(panel.getBreakoutWidth(), panel.getBreakoutHeight());
+
+        frame.setLocationRelativeTo(null);
+
+        frame.setVisible(true);
     }
 
     /**

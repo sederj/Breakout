@@ -27,7 +27,7 @@ public class Ball {
 	private static final int WIDTH = 15, HEIGHT = 15;
 
 	/** private instance of Breakout game. */
-	private Breakout game;
+	private BreakoutPanel game;
 
 	/** x and y are starting coordinates,
 	 * xMove and yMove are how much the ball will move with each update. */
@@ -49,7 +49,7 @@ public class Ball {
      * Public constructor for ball object. Places ball in center of screen
      * @param mGame current game of Breakout being played
      */
-	public Ball(final Breakout mGame) {
+	public Ball(final BreakoutPanel mGame) {
 		try {
 			bounceStream = AudioSystem.getAudioInputStream(
 					new File("bouncesound.wav"));
@@ -65,8 +65,8 @@ public class Ball {
 		}
 
 		this.game = mGame;
-        x = game.getWidth() / 2;
-        y = game.getHeight() / 2;
+        x = game.getBreakoutWidth() / 2;
+        y = game.getBreakoutHeight() / 2;
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class Ball {
 		x += xMove;
         y += yMove;
 
-        if (x < 0 || x > game.getWidth() - WIDTH - 29) {
+        if (x < 0 || x > game.getBreakoutWidth() - WIDTH - 29) {
             xMove = -xMove;
         }
         if (y < 0) {
@@ -102,10 +102,10 @@ public class Ball {
 	public void checkCollision()
 			throws LineUnavailableException, IOException {
 		if (bricks == null) {
-			bricks = game.getPanel().getBricks();
+			bricks = game.getBricks();
 		}
 
-        if (game.getPanel().getPlayer().getBounds().intersects(getBounds())) {
+        if (game.getPlayer().getBounds().intersects(getBounds())) {
         	yMove = -yMove;
         	clip.stop();
     		clip.flush();
@@ -135,8 +135,8 @@ public class Ball {
         }
 
         if (removeBrick != null) {
-        	game.getPanel().removeBrick(removeBrick);
-        	bricks = game.getPanel().getBricks();
+        	game.removeBrick(removeBrick);
+        	bricks = game.getBricks();
         	removeBrick = null;
         }
     }
@@ -157,3 +157,7 @@ public class Ball {
         g.fillRect(x, y, WIDTH, HEIGHT);
     }
 }
+
+
+
+
