@@ -35,7 +35,6 @@ public class Breakout extends JFrame {
         frame.setJMenuBar(panel.getMenu());
 
         frame.pack();
-        frame.setSize(panel.getBreakoutWidth(), panel.getBreakoutHeight());
 
         frame.setLocationRelativeTo(null);
 

@@ -91,7 +91,7 @@ public class Ball {
 		x += xMove;
         y += yMove;
 
-        if (x < 0 || x > game.getBreakoutWidth() - WIDTH - 29) {
+        if (x < 0 || x > game.getBreakoutWidth() - WIDTH) {
             xMove = -xMove;
         }
         if (y < 0) {

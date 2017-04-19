@@ -1,6 +1,7 @@
 package breakout;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -91,9 +92,6 @@ KeyListener {
 
 	/** image for breakout menu. */
 	private transient Image breakoutMenu;
-	
-	/** background for game */
-	private transient Image gameBack;
 
 	/** time length for the explosion graphic. */
 	private long explosionTimer;
@@ -125,6 +123,7 @@ KeyListener {
 	 *
 	 */
 	public BreakoutPanel() {
+		this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		Brick.loadImages();
 		Paddle.loadImages();
 		setBackground(Color.WHITE);
@@ -208,8 +207,6 @@ KeyListener {
 		try {
 			breakoutMenu
 			= ImageIO.read(new File("breakoutmenu.png"));
-			gameBack = ImageIO.read(new File("gameback.png"));
-			gameBack = gameBack.getScaledInstance(getBreakoutWidth() - 18, getBreakoutHeight() - 40, Image.SCALE_DEFAULT);
 			explosionSound
 			= (Clip) AudioSystem.getLine(new Line.Info(Clip.class));
 
@@ -589,7 +586,6 @@ KeyListener {
 			drawExplosion(g);
 			this.startTime = System.currentTimeMillis();
 		} else {
-			g.drawImage(gameBack, 0, 0, null);
 			g.drawString("Score: " + this.getScore(),
 					getBreakoutWidth() / 6, 10);
 			if (!this.getEnd()) {
