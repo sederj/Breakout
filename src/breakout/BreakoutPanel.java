@@ -209,6 +209,7 @@ KeyListener {
 			breakoutMenu
 			= ImageIO.read(new File("breakoutmenu.png"));
 			gameBack = ImageIO.read(new File("gameback.png"));
+			gameBack = gameBack.getScaledInstance(getBreakoutWidth() - 18, getBreakoutHeight() - 40, Image.SCALE_DEFAULT);
 			explosionSound
 			= (Clip) AudioSystem.getLine(new Line.Info(Clip.class));
 
@@ -588,7 +589,7 @@ KeyListener {
 			drawExplosion(g);
 			this.startTime = System.currentTimeMillis();
 		} else {
-			g.drawImage(gameBack, 0, 0, getBreakoutWidth() - 18, getBreakoutHeight() - 40, null);
+			g.drawImage(gameBack, 0, 0, null);
 			g.drawString("Score: " + this.getScore(),
 					getBreakoutWidth() / 6, 10);
 			if (!this.getEnd()) {

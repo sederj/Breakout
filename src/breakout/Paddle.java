@@ -119,6 +119,6 @@ public class Paddle {
      */
     public void paint(final Graphics g) {
         //g.fillRect(x, y, WIDTH, HEIGHT);
-        g.drawImage(paddleImage, x, y, WIDTH, HEIGHT, null);
+        g.drawImage(paddleImage, x, y, null);
     }
 }

@@ -148,6 +148,7 @@ public class Brick {
     public void paint(final Graphics g) {
     	g.setColor(color);
         g.fillRect(x, y, WIDTH, HEIGHT);
-        g.drawImage(brickImages[special + 1], x, y, WIDTH, HEIGHT, null);
+        //g.drawImage(brickImages[special + 1], x, y, WIDTH, HEIGHT, null);
+        g.drawImage(brickImages[special + 1], x, y, null);
     }
 }
