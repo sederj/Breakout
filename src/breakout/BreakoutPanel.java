@@ -438,7 +438,7 @@ KeyListener {
 				   catch (Exception e) {
 					   e.printStackTrace();
 				   }
-			
+				this.score = 0;
 			}
 			
 		}
