@@ -584,6 +584,7 @@ KeyListener {
 		super.paintComponent(g);
 		if (firstUpdate) {
 			g.setFont(new Font("Tahoma", Font.BOLD, 14));
+			firstUpdate = false;
 		}
 		if (menu) {
 			drawMenu(g);
