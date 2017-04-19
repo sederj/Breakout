@@ -1,5 +1,6 @@
 package breakout;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.io.File;
@@ -187,7 +188,13 @@ public class Ball {
      * @param g the graphic to create on screen
      */
     public void paint(final Graphics g) {
-        g.fillRect((int)x, (int)y, WIDTH, HEIGHT);
+    	if (fullMetalJacket) {
+    		g.setColor(Color.ORANGE);
+    		g.fillRect((int)x, (int)y, WIDTH, HEIGHT);
+    		g.setColor(Color.BLACK);
+    	}else {
+    		g.fillRect((int)x, (int)y, WIDTH, HEIGHT);
+    	}
     }
 }
 
