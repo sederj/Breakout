@@ -102,9 +102,6 @@ KeyListener {
 	/** boolean for menu option. */
 	private boolean menu;
 	
-	/** boolean for first update of graphics */
-	private boolean firstUpdate;
-
 	/** JMenu item. */
 	private JMenu fileMenu;
 
@@ -136,7 +133,6 @@ KeyListener {
 		balls.add(b);
 		player = new Paddle(this, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT);
 		lives = 3;
-		firstUpdate = true;
 		
 		setOpenVid();
 
@@ -582,10 +578,7 @@ KeyListener {
 	@Override
 	public void paintComponent(final Graphics g) {
 		super.paintComponent(g);
-		if (firstUpdate) {
-			g.setFont(new Font("Tahoma", Font.BOLD, 14));
-			firstUpdate = false;
-		}
+		g.setFont(new Font("Tahoma", Font.BOLD, 14));
 		if (menu) {
 			drawMenu(g);
 		} else if (System.currentTimeMillis()
