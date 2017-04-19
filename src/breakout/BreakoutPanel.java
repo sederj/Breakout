@@ -10,7 +10,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -18,6 +17,8 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedList;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioSystem;
@@ -55,7 +56,7 @@ KeyListener {
 	private static final long serialVersionUID = 1L;
 
 	/** ball object to be placed on panel. */
-	private transient Ball ball;
+	private transient LinkedList<Ball> balls;
 
 	/** player's paddle to be placed on panel. */
 	private transient Paddle player;
@@ -65,6 +66,9 @@ KeyListener {
 	
 	/** Arraylist of score objests. */
 	private transient Score[] scores = new Score[10];
+	
+	/** Random object for random number generation */
+	private static Random random = new Random();
 
 	/** the player's current score. */
 	private int score;
@@ -87,6 +91,9 @@ KeyListener {
 
 	/** image for breakout menu. */
 	private transient Image breakoutMenu;
+	
+	/** background for game */
+	private transient Image gameBack;
 
 	/** time length for the explosion graphic. */
 	private long explosionTimer;
@@ -118,9 +125,13 @@ KeyListener {
 	 *
 	 */
 	public BreakoutPanel() {
+		Brick.loadImages();
+		Paddle.loadImages();
 		setBackground(Color.WHITE);
 		createBricks();
-		ball = new Ball(this);
+		balls = new LinkedList<Ball>();
+		Ball b = new Ball(this);
+		balls.add(b);
 		player = new Paddle(this, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT);
 		lives = 3;
 
@@ -197,7 +208,7 @@ KeyListener {
 		try {
 			breakoutMenu
 			= ImageIO.read(new File("breakoutmenu.png"));
-
+			gameBack = ImageIO.read(new File("gameback.png"));
 			explosionSound
 			= (Clip) AudioSystem.getLine(new Line.Info(Clip.class));
 
@@ -217,10 +228,41 @@ KeyListener {
 	 * arraylist of brick objects
 	 */
 	public void createBricks() {
+		bricks.clear();
+		int r1 = random.nextInt(NUM_BRICK_ROWS);
+		int c1 = random.nextInt(NUM_BRICK_ROWS);
+		int r2 = random.nextInt(NUM_BRICK_ROWS);
+		int c2 = random.nextInt(NUM_BRICK_ROWS);
+		int r3 = random.nextInt(NUM_BRICK_ROWS);
+		int c3 = random.nextInt(NUM_BRICK_ROWS);
+		int r4 = random.nextInt(NUM_BRICK_ROWS);
+		int c4 = random.nextInt(NUM_BRICK_ROWS);
+		int r5 = random.nextInt(NUM_BRICK_ROWS);
+		int c5 = random.nextInt(NUM_BRICK_ROWS);
+		int r6 = random.nextInt(NUM_BRICK_ROWS);
+		int c6 = random.nextInt(NUM_BRICK_ROWS);
+		int r7 = random.nextInt(NUM_BRICK_ROWS);
+		int c7 = random.nextInt(NUM_BRICK_ROWS);
 		for (int row = 0; row < NUM_BRICK_ROWS; row++) {
 			Color rowColor = checkColor(row);
 			for (int col = 0; col < NUM_BRICKS_IN_ROW; col++) {
-				bricks.add(new Brick(this, col, row, rowColor));
+				if (r1 == row && c1 == col) {
+					bricks.add(new Brick(this, col, row, rowColor, -1));
+				}else if (r2 == row && c2 == col) {
+					bricks.add(new Brick(this, col, row, rowColor, 3));
+				}else if (r3 == row && c3 == col) {
+					bricks.add(new Brick(this, col, row, rowColor, 2));
+				}else if (r4 == row && c4 == col) {
+					bricks.add(new Brick(this, col, row, rowColor, 2));
+				}else if (r5 == row && c5 == col) {
+					bricks.add(new Brick(this, col, row, rowColor, 1));
+				}else if (r6 == row && c6 == col) {
+					bricks.add(new Brick(this, col, row, rowColor, 1));
+				}else if (r7 == row && c7 == col) {
+					bricks.add(new Brick(this, col, row, rowColor, 1));
+				}else {
+					bricks.add(new Brick(this, col, row, rowColor, 0));
+				}
 			}
 		}
 	}
@@ -322,6 +364,17 @@ KeyListener {
 	public boolean getEnd() {
 		return this.end;
 	}
+	
+	/**
+	 * Adds a ball in desired location
+	 * @param x the x location for creation
+	 * @param y the y location for creation
+	 */
+	public void createBall(double x, double y) {
+		Ball b = new Ball(getPanel());
+		b.setLocation(x, y);
+		balls.add(b);
+	}
 
 	/**
 	 * method to update the position of the ball and the player's paddle.
@@ -334,9 +387,10 @@ KeyListener {
 
 		if (this.checkLoss()) {
 			this.lives--;
-			if (this.getLives() > 0)
-				ball = new Ball(getPanel());
-			else if (!this.getEnd()) {
+			if (this.getLives() > 0) {
+				balls.clear();
+				balls.add(new Ball(getPanel()));
+			}else if (!this.getEnd()) {
 				end = true;
 				JOptionPane.showMessageDialog(null, "You lose!"
 						+ "\nScore: " + this.score
@@ -447,7 +501,8 @@ KeyListener {
 				menu = true;
 				
 				createBricks();
-				ball = new Ball(getPanel());
+				balls.clear();
+				balls.add(new Ball(getPanel()));
 				player = new Paddle(getPanel(), 
 						KeyEvent.VK_LEFT, 
 						KeyEvent.VK_RIGHT);
@@ -457,7 +512,9 @@ KeyListener {
 				System.exit(0);
 			}
 		}
-		ball.update();
+		for (int i = 0; i < balls.size(); i++) {
+			balls.get(i).update();
+		}
 		player.update();
 	}
 
@@ -531,6 +588,7 @@ KeyListener {
 			drawExplosion(g);
 			this.startTime = System.currentTimeMillis();
 		} else {
+			g.drawImage(gameBack, 0, 0, getBreakoutWidth() - 18, getBreakoutHeight() - 40, null);
 			g.drawString("Score: " + this.getScore(),
 					getBreakoutWidth() / 6, 10);
 			if (!this.getEnd()) {
@@ -552,7 +610,9 @@ KeyListener {
 						getBreakoutWidth() - getBreakoutWidth()
 						/ 2 - 30, 10);
 			}
-			ball.paint(g);
+			for (int i = 0; i < balls.size(); i++) {
+				balls.get(i).paint(g);
+			}
 			player.paint(g);
 			for (Brick brick : bricks) {
 				brick.paint(g);
@@ -597,8 +657,13 @@ KeyListener {
 	 * @return boolean based on if the player has lost.
 	 */
 	private boolean checkLoss() {
-		if (getBreakoutHeight() <= this.ball.getBounds().getY()) {
-			return true;
+		for (int i = 0; i < balls.size(); i++) {
+			if (getBreakoutHeight() <= balls.get(i).getBounds().getY()) {
+				balls.remove(i);
+				if (balls.size() == 0) {
+					return true;
+				}
+			}
 		}
 		return false;
 	}
@@ -659,7 +724,8 @@ KeyListener {
 				menu = true;
 				
 				createBricks();
-				ball = new Ball(getPanel());
+				balls.clear();
+				balls.add(new Ball(getPanel()));
 				player = new Paddle(getPanel(), 
 						KeyEvent.VK_LEFT, 
 						KeyEvent.VK_RIGHT);

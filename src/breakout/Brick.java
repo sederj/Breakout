@@ -2,7 +2,12 @@ package breakout;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.geom.Line2D;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 /**
  * Class contianing logic for each brick.
@@ -24,6 +29,9 @@ public class Brick {
 
 	/** Distance between the paddle and the lowest row of bricks. */
 	private static final int PADDLE_BRICK_DIST = 450;
+	
+	/** Hold images for bricks */
+	private static Image[] brickImages;
 
 	/** Starting coordinates of brick objects. */
 	private int startX, startY;
@@ -36,6 +44,9 @@ public class Brick {
 
 	/** Color of brick object. */
 	private Color color;
+	
+	/** Determine if brick is special */
+	private int special;
 
 	/**
 	 * public constructor for Brick object. Sets the
@@ -46,7 +57,8 @@ public class Brick {
 	 * @param c the color of the brick
 	 */
 	public Brick(final BreakoutPanel game, final int cl,
-			final int r, final Color c) {
+			final int r, final Color c, int special) {
+		this.special = special;
 		HEIGHT = 22;
 		WIDTH = (game.getBreakoutWidth()
 				- (BreakoutPanel.getNumBricksInRow())
@@ -60,6 +72,20 @@ public class Brick {
 		x = startX - cl * (WIDTH + BRICK_SEPARATION);
 		y = startY - r * (HEIGHT + BRICK_SEPARATION);
 		this.row = r;
+	}
+	
+	/** load brick images. */
+	public static void loadImages() {
+		brickImages = new Image[5];
+		try {
+			brickImages[0] = ImageIO.read(new File("brickfmj.png"));
+			brickImages[1] = ImageIO.read(new File("brick.png"));
+			brickImages[2] = ImageIO.read(new File("brickone.png"));
+			brickImages[3] = ImageIO.read(new File("bricktwo.png"));
+			brickImages[4] = ImageIO.read(new File("brickthree.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
     /**
@@ -105,7 +131,15 @@ public class Brick {
     public int getRow() {
     	return this.row;
     }
-
+    
+    /**
+     * Returns if the brick is special
+     * @return special whether the brick is special or not
+     */
+    public int getSpecial() {
+    	return special;
+    }
+    
     /**
      * Paints the panel rectangle object.
      *
@@ -114,5 +148,6 @@ public class Brick {
     public void paint(final Graphics g) {
     	g.setColor(color);
         g.fillRect(x, y, WIDTH, HEIGHT);
+        g.drawImage(brickImages[special + 1], x, y, WIDTH, HEIGHT, null);
     }
 }

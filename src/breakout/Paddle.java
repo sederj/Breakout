@@ -1,7 +1,12 @@
 package breakout;
 
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Rectangle;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 /**
  * Class to contain logic for player paddle object.
@@ -13,7 +18,10 @@ import java.awt.Rectangle;
 public class Paddle {
 
 	/** Dimensions of player paddle. */
-	private static final int WIDTH = 80, HEIGHT = 10;
+	private static final int WIDTH = 100, HEIGHT = 10;
+	
+	/** Image for padde. */
+	private static Image paddleImage;
 
 	/** Breakout game object. */
     private BreakoutPanel game;
@@ -42,6 +50,15 @@ public class Paddle {
         y = game.getBreakoutHeight() - 80;
         this.left = mLeft;
         this.right = mRight;
+    }
+    
+    /** load image for paddle */
+    public static void loadImages() {
+    	try {
+			paddleImage = ImageIO.read(new File("paddle.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 
     /**
@@ -101,6 +118,7 @@ public class Paddle {
      * @param g the paddle object being painted
      */
     public void paint(final Graphics g) {
-        g.fillRect(x, y, WIDTH, HEIGHT);
+        //g.fillRect(x, y, WIDTH, HEIGHT);
+        g.drawImage(paddleImage, x, y, WIDTH, HEIGHT, null);
     }
 }
