@@ -410,9 +410,10 @@ KeyListener {
 				}
 				Arrays.sort(this.scores, Collections.reverseOrder());
 				String scoreOutput = "<html><table border=\"1\">";
-				scoreOutput += "<tr><th>Name</th><th>Score</th><th>Time</th></tr>";
+				scoreOutput += "<tr><th>#</th><th>Name</th><th>Score</th><th>Time</th></tr>";
 				for (int i = 0; i < this.scores.length; i++) {
 					scoreOutput += "<tr>";
+					scoreOutput += "<td><center>" + (i + 1) + "</center></td>";
 					scoreOutput += "<td>" + this.scores[i].getName() + "</td>" + "<td>" + this.scores[i].getValue()
 							+ "</td>" + "<td>" + this.scores[i].getTime() + "</td>" + "</tr>";
 				}
@@ -456,9 +457,10 @@ KeyListener {
 				}
 				Arrays.sort(this.scores, Collections.reverseOrder());
 				String scoreOutput = "<html><table border=\"1\">";
-				scoreOutput += "<tr><th>Name</th><th>Score</th><th>Time</th></tr>";
+				scoreOutput += "<tr><th>#</th><th>Name</th><th>Score</th><th>Time</th></tr>";
 				for (int i = 0; i < this.scores.length; i++) {
 					scoreOutput += "<tr>";
+					scoreOutput += "<td><center>" + (i + 1) + "</center></td>";
 					scoreOutput += "<td>" + this.scores[i].getName() + "</td>" + "<td>" + this.scores[i].getValue()
 							+ "</td>" + "<td>" + this.scores[i].getTime() + "</td>" + "</tr>";
 				}
