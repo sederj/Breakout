@@ -97,8 +97,11 @@ public class Paddle {
      * @param keyCode the code of the key being released
      */
     public void released(final int keyCode) {
-        if (keyCode == left || keyCode == right) {
+        if (keyCode == left && xMove < 0) {
             xMove = 0;
+        }
+        if (keyCode == right && xMove > 0) {
+        	xMove = 0;
         }
     }
 

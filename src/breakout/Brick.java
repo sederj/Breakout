@@ -70,7 +70,7 @@ public class Brick {
 		this.color = c;
 		
 		startX = game.getBreakoutWidth() 
-				- (WIDTH + 6 * BRICK_SEPARATION);
+				- (WIDTH + 6 * (BRICK_SEPARATION - 1));
 		
 		startY = game.getBreakoutHeight() 
 				- PADDLE_BRICK_DIST - (HEIGHT / 2);
