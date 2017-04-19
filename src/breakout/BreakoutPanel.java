@@ -9,9 +9,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioSystem;
@@ -20,6 +26,7 @@ import javax.sound.sampled.Line;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -57,7 +64,7 @@ KeyListener {
 	private transient ArrayList<Brick> bricks = new ArrayList<Brick>();
 	
 	/** Arraylist of score objests. */
-	private transient ArrayList<Score> scores = new ArrayList<Score>();
+	private transient Score[] scores = new Score[10];
 
 	/** the player's current score. */
 	private int score;
@@ -141,6 +148,34 @@ KeyListener {
 		menuBar.add(fileMenu);
 
 		add(menuBar, fileMenu);
+		
+		File f = new File("thescores.dat");
+		if (!f.exists() && !f.isDirectory()) {
+			try {
+			      FileOutputStream fout = new FileOutputStream("thescores.dat");
+			      ObjectOutputStream oos = new ObjectOutputStream(fout);
+			      oos.writeObject(this.scores);
+			      oos.close();
+			}
+			   catch (Exception e) {
+				   e.printStackTrace();
+			   }
+		}
+		try {
+		    FileInputStream fin = new FileInputStream("thescores.dat");
+		    ObjectInputStream ois = new ObjectInputStream(fin);
+		    this.scores = (Score[]) ois.readObject();
+		    ois.close();
+		}
+		   catch (Exception e) {
+			   e.printStackTrace();
+		   }
+		for (int i = 0; i < this.scores.length; i++) {
+			if (this.scores[i] == null) {
+				this.scores[i] = new Score(0, "ABC");
+			}
+		}
+		Arrays.sort(this.scores, Collections.reverseOrder());
 	}
 
 	/**
@@ -309,7 +344,47 @@ KeyListener {
 						+ (System.currentTimeMillis()
 								- startTime) / 1000,
 						"Failure", JOptionPane.WARNING_MESSAGE);
+				if (this.scores[9].getValue() <= this.score) {
+					while (true) {
+						String s = JOptionPane.showInputDialog("Please input your initials: ");
+						if (s == null || s.length() > 3) {
+							JOptionPane.showMessageDialog(null, 
+									"Please enter less than 3 characters.",
+									"Error", JOptionPane.WARNING_MESSAGE);
+						} else {
+							this.scores[9] = new Score(this.score, s);
+							break;
+						}
+					}
+				}
+				Arrays.sort(this.scores, Collections.reverseOrder());
+				String scoreOutput = "<html><hr><ol>";
+				for (int i = 0; i < this.scores.length; i++) {
+					scoreOutput += "<li>";
+					scoreOutput += this.scores[i].getName() 
+							+ " | "
+							+ this.scores[i].getValue()
+							+ "</li>";
+				}
+				scoreOutput += "</ol><hr></html>";
+				
+				JLabel scoreLabel = new JLabel (scoreOutput, JLabel.LEFT);
+				
+				JOptionPane.showMessageDialog(null, scoreLabel,
+						"High Scores", JOptionPane.WARNING_MESSAGE);
+				
+				try {
+				      FileOutputStream fout = new FileOutputStream("thescores.dat");
+				      ObjectOutputStream oos = new ObjectOutputStream(fout);
+				      oos.writeObject(this.scores);
+				      oos.close();
+				}
+				   catch (Exception e) {
+					   e.printStackTrace();
+				   }
+			
 			}
+			
 		}
 
 		if (this.checkWin()) {
@@ -319,6 +394,46 @@ KeyListener {
 					+ (System.currentTimeMillis()
 						- startTime) / 1000, "Victory",
 					JOptionPane.INFORMATION_MESSAGE);
+			
+			if (this.scores[9].getValue() <= this.score) {
+				while (true) {
+					String s = JOptionPane.showInputDialog("Please input your initials: ");
+					if (s == null || s.length() > 3) {
+						JOptionPane.showMessageDialog(null, 
+								"Please enter less than 3 characters.",
+								"Error", JOptionPane.WARNING_MESSAGE);
+					} else {
+						this.scores[9] = new Score(this.score, s);
+						break;
+					}
+				}
+			}
+			Arrays.sort(this.scores, Collections.reverseOrder());
+			String scoreOutput = "<html><hr><ol>";
+			for (int i = 0; i < this.scores.length; i++) {
+				scoreOutput += "<li>";
+				scoreOutput += this.scores[i].getName() 
+						+ " | "
+						+ this.scores[i].getValue()
+						+ "</li>";
+			}
+			scoreOutput += "</ol><hr></html>";
+			
+			JLabel scoreLabel = new JLabel (scoreOutput, JLabel.LEFT);
+			
+			JOptionPane.showMessageDialog(null, scoreLabel,
+					"High Scores", JOptionPane.WARNING_MESSAGE);
+			
+			try {
+			      FileOutputStream fout = new FileOutputStream("thescores.dat");
+			      ObjectOutputStream oos = new ObjectOutputStream(fout);
+			      oos.writeObject(this.scores);
+			      oos.close();
+			}
+			   catch (Exception e) {
+				   e.printStackTrace();
+			   }
+		
 
 			int reply = JOptionPane.showConfirmDialog(null, 
 					"Would you like to play again?", 

@@ -2,9 +2,14 @@ package breakout;
 
 import java.io.Serializable;
 
-public class Score implements Serializable{
+public class Score implements Serializable, Comparable{
 	private int value;
 	private String name;
+	
+	public Score(int val, String n) {
+		this.value = val;
+		this.name = n;
+	}
 	
 	public int getValue() {
 		return this.value;
@@ -20,5 +25,13 @@ public class Score implements Serializable{
 	
 	public void setName(String s) {
 		this.name = s;
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		if (!(o instanceof Score))
+		      throw new ClassCastException();
+		    int anotherValue = ((Score) o).getValue();  
+		    return this.value - anotherValue;
 	}
 }
