@@ -4,15 +4,21 @@ import java.io.Serializable;
 
 public class Score implements Serializable, Comparable{
 	private int value;
+	private int time;
 	private String name;
 	
-	public Score(int val, String n) {
+	public Score(int val, int t, String n) {
 		this.value = val;
+		this.time = t;
 		this.name = n;
 	}
 	
 	public int getValue() {
 		return this.value;
+	}
+	
+	public int getTime() {
+		return this.time;
 	}
 	
 	public String getName() {
@@ -23,6 +29,10 @@ public class Score implements Serializable, Comparable{
 		this.value = i;
 	}
 	
+	public void setTime(int i) {
+		this.time = i;
+	}
+	
 	public void setName(String s) {
 		this.name = s;
 	}
@@ -31,7 +41,11 @@ public class Score implements Serializable, Comparable{
 	public int compareTo(Object o) {
 		if (!(o instanceof Score))
 		      throw new ClassCastException();
-		    int anotherValue = ((Score) o).getValue();  
+		    int anotherValue = ((Score) o).getValue();
+		    int anotherTime = ((Score) o).getTime();  
+		    if (this.value - anotherValue == 0) {
+		    	return anotherTime - this.time;
+		    }
 		    return this.value - anotherValue;
 	}
 }

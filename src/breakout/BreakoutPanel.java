@@ -182,7 +182,7 @@ KeyListener {
 		   }
 		for (int i = 0; i < this.scores.length; i++) {
 			if (this.scores[i] == null) {
-				this.scores[i] = new Score(0, "ABC");
+				this.scores[i] = new Score(0, 0, "ABC");
 			}
 		}
 		Arrays.sort(this.scores, Collections.reverseOrder());
@@ -378,8 +378,7 @@ KeyListener {
 	 * method to update the position of the ball and the player's paddle.
 	 */
 	private void update() {
-		if (menu || System.currentTimeMillis()
-				- explosionTimer <= 1000) {
+		if (menu || System.currentTimeMillis() - explosionTimer <= 1000) {
 			return;
 		}
 
@@ -388,132 +387,104 @@ KeyListener {
 			if (this.getLives() > 0) {
 				balls.clear();
 				balls.add(new Ball(getPanel()));
-			}else if (!this.getEnd()) {
+			} else if (!this.getEnd()) {
 				end = true;
-				JOptionPane.showMessageDialog(null, "You lose!"
-						+ "\nScore: " + this.score
-						+ "\nTime: "
-						+ (System.currentTimeMillis()
-								- startTime) / 1000,
+				int theTime = (int) (System.currentTimeMillis() - startTime) / 1000;
+				JOptionPane.showMessageDialog(null,
+						"You lose!" + "\nScore: " + this.score + "\nTime: "
+								+ (System.currentTimeMillis() - startTime) / 1000,
 						"Failure", JOptionPane.WARNING_MESSAGE);
 				if (this.scores[9].getValue() <= this.score) {
 					while (true) {
 						String s = JOptionPane.showInputDialog("Please input your initials: ");
 						if (s == null || s.length() > 3) {
-							JOptionPane.showMessageDialog(null, 
-									"Please enter less than 3 characters.",
-									"Error", JOptionPane.WARNING_MESSAGE);
+							JOptionPane.showMessageDialog(null, "Please enter less than 3 characters.", "Error",
+									JOptionPane.WARNING_MESSAGE);
 						} else {
-							this.scores[9] = new Score(this.score, s);
+							this.scores[9] = new Score(this.score, theTime, s);
 							break;
 						}
 					}
 				}
 				Arrays.sort(this.scores, Collections.reverseOrder());
-				String scoreOutput = "<html><hr><ol>";
+				String scoreOutput = "<html><table border=\"1\">";
+				scoreOutput += "<tr><th>Name</th><th>Score</th><th>Time</th></tr>";
 				for (int i = 0; i < this.scores.length; i++) {
-					scoreOutput += "<li>";
-					scoreOutput += this.scores[i].getName() 
-							+ " | "
-							+ this.scores[i].getValue()
-							+ "</li>";
+					scoreOutput += "<tr>";
+					scoreOutput += "<td>" + this.scores[i].getName() + "</td>" + "<td>" + this.scores[i].getValue()
+							+ "</td>" + "<td>" + this.scores[i].getTime() + "</td>" + "</tr>";
 				}
-				scoreOutput += "</ol><hr></html>";
-				
-				JLabel scoreLabel = new JLabel (scoreOutput, JLabel.LEFT);
-				
-				JOptionPane.showMessageDialog(null, scoreLabel,
-						"High Scores", JOptionPane.WARNING_MESSAGE);
-				
+				scoreOutput += "</table></html>";
+
+				JLabel scoreLabel = new JLabel(scoreOutput, JLabel.CENTER);
+
+				JOptionPane.showMessageDialog(null, scoreLabel, "High Scores", JOptionPane.DEFAULT_OPTION);
+
 				try {
-				      FileOutputStream fout = new FileOutputStream("thescores.dat");
-				      ObjectOutputStream oos = new ObjectOutputStream(fout);
-				      oos.writeObject(this.scores);
-				      oos.close();
+					FileOutputStream fout = new FileOutputStream("thescores.dat");
+					ObjectOutputStream oos = new ObjectOutputStream(fout);
+					oos.writeObject(this.scores);
+					oos.close();
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-				   catch (Exception e) {
-					   e.printStackTrace();
-				   }
 				this.score = 0;
 			}
-			
+
 		}
 
 		if (this.checkWin()) {
-			JOptionPane.showMessageDialog(null,
-					"You win!\nScore: " + this.score
-					+ "\nTime: "
-					+ (System.currentTimeMillis()
-						- startTime) / 1000, "Victory",
-					JOptionPane.INFORMATION_MESSAGE);
-			
-			if (this.scores[9].getValue() <= this.score) {
-				while (true) {
-					String s = JOptionPane.showInputDialog("Please input your initials: ");
-					if (s == null || s.length() > 3) {
-						JOptionPane.showMessageDialog(null, 
-								"Please enter less than 3 characters.",
-								"Error", JOptionPane.WARNING_MESSAGE);
-					} else {
-						this.scores[9] = new Score(this.score, s);
-						break;
+			if (!this.end) {
+				JOptionPane.showMessageDialog(null,
+						"You win!\nScore: " + this.score + "\nTime: " + (System.currentTimeMillis() - startTime) / 1000,
+						"Victory", JOptionPane.INFORMATION_MESSAGE);
+				int theTime = (int) (System.currentTimeMillis() - startTime) / 1000;
+				if (this.scores[9].getValue() <= this.score) {
+					while (true) {
+						String s = JOptionPane.showInputDialog("Please input your initials: ");
+						if (s == null || s.length() > 3) {
+							JOptionPane.showMessageDialog(null, "Please enter less than 3 characters.", "Error",
+									JOptionPane.WARNING_MESSAGE);
+						} else {
+							this.scores[9] = new Score(this.score, theTime, s);
+							break;
+						}
 					}
 				}
-			}
-			Arrays.sort(this.scores, Collections.reverseOrder());
-			String scoreOutput = "<html><hr><ol>";
-			for (int i = 0; i < this.scores.length; i++) {
-				scoreOutput += "<li>";
-				scoreOutput += this.scores[i].getName() 
-						+ " | "
-						+ this.scores[i].getValue()
-						+ "</li>";
-			}
-			scoreOutput += "</ol><hr></html>";
-			
-			JLabel scoreLabel = new JLabel (scoreOutput, JLabel.LEFT);
-			
-			JOptionPane.showMessageDialog(null, scoreLabel,
-					"High Scores", JOptionPane.WARNING_MESSAGE);
-			
-			try {
-			      FileOutputStream fout = new FileOutputStream("thescores.dat");
-			      ObjectOutputStream oos = new ObjectOutputStream(fout);
-			      oos.writeObject(this.scores);
-			      oos.close();
-			}
-			   catch (Exception e) {
-				   e.printStackTrace();
-			   }
-		
+				Arrays.sort(this.scores, Collections.reverseOrder());
+				String scoreOutput = "<html><table border=\"1\">";
+				scoreOutput += "<tr><th>Name</th><th>Score</th><th>Time</th></tr>";
+				for (int i = 0; i < this.scores.length; i++) {
+					scoreOutput += "<tr>";
+					scoreOutput += "<td>" + this.scores[i].getName() + "</td>" + "<td>" + this.scores[i].getValue()
+							+ "</td>" + "<td>" + this.scores[i].getTime() + "</td>" + "</tr>";
+				}
+				scoreOutput += "</table></html>";
 
-			int reply = JOptionPane.showConfirmDialog(null, 
-					"Would you like to play again?", 
-					"Game Over", JOptionPane.YES_NO_OPTION);
-			if (reply == JOptionPane.NO_OPTION) {
-				System.exit(0);
-			} else if (reply == JOptionPane.YES_OPTION) {
-				getPanel().removeAll();
-				
-				explosion.flush();
-				menu = true;
-				
-				createBricks();
-				balls.clear();
-				balls.add(new Ball(getPanel()));
-				player = new Paddle(getPanel(), 
-						KeyEvent.VK_LEFT, 
-						KeyEvent.VK_RIGHT);
-				this.end = false;
-				this.lives = 3;
-			} else if (reply == JOptionPane.CANCEL_OPTION) {
-				System.exit(0);
+				JLabel scoreLabel = new JLabel(scoreOutput, JLabel.CENTER);
+
+				JOptionPane.showMessageDialog(null, scoreLabel, "High Scores", JOptionPane.DEFAULT_OPTION);
+
+				try {
+					FileOutputStream fout = new FileOutputStream("thescores.dat");
+					ObjectOutputStream oos = new ObjectOutputStream(fout);
+					oos.writeObject(this.scores);
+					oos.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				this.end = true;
+				for (int i = 0; i < balls.size(); i++) {
+					this.balls.remove(i);
+				}
 			}
 		}
+
 		for (int i = 0; i < balls.size(); i++) {
 			balls.get(i).update();
 		}
 		player.update();
+
 	}
 
 	/**
@@ -727,6 +698,7 @@ KeyListener {
 						KeyEvent.VK_LEFT, 
 						KeyEvent.VK_RIGHT);
 				end = false;
+				score = 0;
 				lives = 3;
 
 			}
