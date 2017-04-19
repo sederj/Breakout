@@ -62,9 +62,12 @@ public class Ball {
 		double speed = 2;
 		xMove = 0.5 + (1.5 - 0.5) * random.nextDouble();
 		yMove = Math.sqrt(Math.pow(speed, 2) - Math.pow(xMove, 2));
-		xMove *= (random.nextInt(2) == 0) ? 1 : -1;
+		if (random.nextInt(2) == 0) {
+			xMove *= 1;
+		} else {
+			xMove *= -1;
+		}
 		
-
 		this.game = mGame;
         x = (double) game.getBreakoutWidth() / 2.0;
         y = (double) game.getBreakoutHeight() / 2.0;
