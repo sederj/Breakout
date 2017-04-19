@@ -418,8 +418,9 @@ KeyListener {
 							.showInputDialog(
 							"Please input "
 							+ "your initials: ");
-						if (s == null || 
-							s.length() > 3) {
+						if (s == null 
+								|| s.length() 
+								> 3) {
 							JOptionPane.
 							showMessageDialog(
 							null, 
@@ -449,13 +450,13 @@ KeyListener {
 					scoreOutput += "<tr>";
 					scoreOutput += "<td><center>" 
 					+ (i + 1) + "</center></td>";
-					scoreOutput += "<td>" + 
-					this.scores[i].getName() + 
-					"</td>" + "<td>" + 
-					this.scores[i].getValue()
-					+ "</td>" + "<td>" + 
-					this.scores[i].getTime() + 
-					"</td>" + "</tr>";
+					scoreOutput += "<td>" 
+					+ this.scores[i].getName() 
+					+ "</td>" + "<td>" 
+					+ this.scores[i].getValue()
+					+ "</td>" + "<td>" 
+					+ this.scores[i].getTime() 
+					+ "</td>" + "</tr>";
 				}
 				scoreOutput += "</table></html>";
 
@@ -502,8 +503,8 @@ KeyListener {
 						String s = 
 						JOptionPane.showInputDialog(
 						"Please input your initials: ");
-						if (s == null ||
-							s.length() > 3) {
+						if (s == null 
+							|| s.length() > 3) {
 							JOptionPane.
 							showMessageDialog(
 							null, 
