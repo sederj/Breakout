@@ -62,7 +62,7 @@ public class Ball {
 		double speed = 2;
 		xMove = 0.5 + (1.5 - 0.5) * random.nextDouble();
 		yMove = Math.sqrt(Math.pow(speed, 2) - Math.pow(xMove, 2));
-		xMove*= (random.nextInt(2) == 0) ? 1 : -1;
+		xMove *= (random.nextInt(2) == 0) ? 1 : -1;
 		try {
 			bounceStream = AudioSystem.getAudioInputStream(
 					new File("bouncesound.wav"));
@@ -158,7 +158,7 @@ public class Ball {
         		for (int i = 0; i < removeBrick.getSpecial(); i++) {
         			game.createBall(x, y);
         		}
-        	}else if (removeBrick.getSpecial() < 0) {
+        	} else if (removeBrick.getSpecial() < 0) {
         		fullMetalJacket = true;
         	}
         	removeBrick = null;
@@ -170,9 +170,9 @@ public class Ball {
 	 * @param x the x location of the ball
 	 * @param y the y location of the ball
 	 */
-	public void setLocation(double x, double y) {
-		this.x = x;
-		this.y = y;
+	public void setLocation(double x1, double y1) {
+		this.x = x1;
+		this.y = y1;
 	}
 
 	/**
@@ -180,7 +180,7 @@ public class Ball {
 	 * @return Rectangle object representing bounds of ball object
 	 */
     public Rectangle getBounds() {
-        return new Rectangle((int)x, (int)y, WIDTH, HEIGHT);
+        return new Rectangle((int) x, (int) y, WIDTH, HEIGHT);
     }
 
     /**
@@ -190,10 +190,10 @@ public class Ball {
     public void paint(final Graphics g) {
     	if (fullMetalJacket) {
     		g.setColor(Color.ORANGE);
-    		g.fillRect((int)x, (int)y, WIDTH, HEIGHT);
+    		g.fillRect((int) x, (int) y, WIDTH, HEIGHT);
     		g.setColor(Color.BLACK);
-    	}else {
-    		g.fillRect((int)x, (int)y, WIDTH, HEIGHT);
+    	} else {
+    		g.fillRect((int) x, (int) y, WIDTH, HEIGHT);
     	}
     }
 }

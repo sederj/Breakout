@@ -53,13 +53,13 @@ KeyListener {
 	/** Height dimension of Java panel. */
 	private static final int HEIGHT = 750;
 
-	/** default serial version UID. */
+	/** Default serial version UID. */
 	private static final long serialVersionUID = 1L;
 
-	/** ball object to be placed on panel. */
+	/** Ball object to be placed on panel. */
 	private transient LinkedList<Ball> balls;
 
-	/** player's paddle to be placed on panel. */
+	/** Player's paddle to be placed on panel. */
 	private transient Paddle player;
 
 	/** Arraylist of brick objects. */
@@ -68,38 +68,40 @@ KeyListener {
 	/** Arraylist of score objests. */
 	private transient Score[] scores = new Score[10];
 	
-	/** Random object for random number generation */
+	/** Random object for random number generation. */
 	private static Random random = new Random();
 
-	/** the player's current score. */
+	/** The player's current score. */
 	private int score;
 	
+	/** The player's current number of lives. */
 	private int lives;
 	
+	/** Checks whether or not the game has ended. */
 	private boolean end;
 
-	/** number of rows of bricks. */
+	/** Number of rows of bricks. */
 	private static final int NUM_BRICK_ROWS = 8;
 
-	/** number of bricks in each row. */
+	/** Number of bricks in each row. */
 	private static final int NUM_BRICKS_IN_ROW = 10;
 
-	/** starting time for timer. */
+	/** Starting time for timer. */
 	private long startTime;
 
-	/** image for explosion graphic. */
+	/** Image for explosion graphic. */
 	private transient Image explosion;
 
-	/** image for breakout menu. */
+	/** Image for Breakout menu. */
 	private transient Image breakoutMenu;
 
-	/** time length for the explosion graphic. */
+	/** Time length for the explosion graphic. */
 	private long explosionTimer;
 
-	/** sound clip for explosion sound. */
+	/** Sound clip for explosion sound. */
 	private transient Clip explosionSound;
 
-	/** boolean for menu option. */
+	/** Boolean for menu option. */
 	private boolean menu;
 	
 	/** JMenu item. */
@@ -118,7 +120,7 @@ KeyListener {
 	private ButtonListener buttonListener = new ButtonListener();
 
 	/**
-	 * public constructor for BreakoutPanel. Adds ball and player
+	 * Public constructor for BreakoutPanel. Adds ball and player
 	 * to the game panel.
 	 *
 	 */
@@ -166,8 +168,7 @@ KeyListener {
 			      ObjectOutputStream oos = new ObjectOutputStream(fout);
 			      oos.writeObject(this.scores);
 			      oos.close();
-			}
-			   catch (Exception e) {
+			} catch (Exception e) {
 				   e.printStackTrace();
 			   }
 		}
@@ -176,8 +177,7 @@ KeyListener {
 		    ObjectInputStream ois = new ObjectInputStream(fin);
 		    this.scores = (Score[]) ois.readObject();
 		    ois.close();
-		}
-		   catch (Exception e) {
+		} catch (Exception e) {
 			   e.printStackTrace();
 		   }
 		for (int i = 0; i < this.scores.length; i++) {
@@ -222,8 +222,8 @@ KeyListener {
 	}
 
 	/**
-	 * method to generate the bricks for breakout game. adds bricks to an
-	 * arraylist of brick objects
+	 * Method to generate the bricks for Breakout game. adds bricks to an
+	 * ArrayList of brick objects
 	 */
 	public void createBricks() {
 		bricks.clear();
@@ -246,19 +246,19 @@ KeyListener {
 			for (int col = 0; col < NUM_BRICKS_IN_ROW; col++) {
 				if (r1 == row && c1 == col) {
 					bricks.add(new Brick(this, col, row, rowColor, -1));
-				}else if (r2 == row && c2 == col) {
+				} else if (r2 == row && c2 == col) {
 					bricks.add(new Brick(this, col, row, rowColor, 3));
-				}else if (r3 == row && c3 == col) {
+				} else if (r3 == row && c3 == col) {
 					bricks.add(new Brick(this, col, row, rowColor, 2));
-				}else if (r4 == row && c4 == col) {
+				} else if (r4 == row && c4 == col) {
 					bricks.add(new Brick(this, col, row, rowColor, 2));
-				}else if (r5 == row && c5 == col) {
+				} else if (r5 == row && c5 == col) {
 					bricks.add(new Brick(this, col, row, rowColor, 1));
-				}else if (r6 == row && c6 == col) {
+				} else if (r6 == row && c6 == col) {
 					bricks.add(new Brick(this, col, row, rowColor, 1));
-				}else if (r7 == row && c7 == col) {
+				} else if (r7 == row && c7 == col) {
 					bricks.add(new Brick(this, col, row, rowColor, 1));
-				}else {
+				} else {
 					bricks.add(new Brick(this, col, row, rowColor, 0));
 				}
 			}
@@ -378,10 +378,12 @@ KeyListener {
 	 * method to update the position of the ball and the player's paddle.
 	 */
 	private void update() {
+		// Pauses gameplay during menu.
 		if (menu || System.currentTimeMillis() - explosionTimer <= 1000) {
 			return;
 		}
-
+		
+		// Checks if the player has lost.
 		if (this.checkLoss()) {
 			this.lives--;
 			if (this.getLives() > 0) {
@@ -432,7 +434,8 @@ KeyListener {
 			}
 
 		}
-
+		
+		// Checks if the player has won.
 		if (this.checkWin()) {
 			if (!this.end) {
 				JOptionPane.showMessageDialog(null,
@@ -479,7 +482,8 @@ KeyListener {
 				}
 			}
 		}
-
+		
+		// Updates any balls on screen and the paddle.
 		for (int i = 0; i < balls.size(); i++) {
 			balls.get(i).update();
 		}
@@ -488,7 +492,7 @@ KeyListener {
 	}
 
 	/**
-	 * implemented method from ActionListener.
+	 * Implemented method from ActionListener.
 	 *
 	 * @param e the action performed
 	 */
@@ -498,8 +502,8 @@ KeyListener {
 	}
 
 	/**
-	 * listener for keyboard strokes. Used when left or right arrow key are
-	 * pressed
+	 * Listener for keyboard strokes. Used when left or right arrow key are
+	 * pressed.
 	 *
 	 * @param e the action performed
 	 */
@@ -513,8 +517,8 @@ KeyListener {
 	}
 
 	/**
-	 * listener for keyboard release. Used when left or right arrow key are
-	 * released
+	 * Listener for keyboard release. Used when left or right arrow key are
+	 * released.
 	 *
 	 * @param e the key action performed
 	 */
@@ -523,7 +527,7 @@ KeyListener {
 	}
 
 	/**
-	 * implemented listener from KeyListener.
+	 * Implemented listener from KeyListener.
 	 *
 	 * @param e the key action performed
 	 */
@@ -532,7 +536,7 @@ KeyListener {
 	}
 
 	/**
-	 * getter method for number of bricks in a row.
+	 * Getter method for number of bricks in a row.
 	 *
 	 * @return the number of bricks in a row
 	 */
@@ -541,7 +545,7 @@ KeyListener {
 	}
 
 	/**
-	 * override method that prints the game score and paints the ball
+	 * Override method that prints the game score and paints the ball
 	 * and player paddle.
 	 *
 	 * @param g the graphic object to paint
@@ -589,7 +593,7 @@ KeyListener {
 	}
 
 	/**
-	 * method to draw the breakout menu.
+	 * Method to draw the Breakout menu.
 	 *
 	 * @param g the graphic object to draw it on
 	 */
@@ -598,7 +602,7 @@ KeyListener {
 	}
 
 	/**
-	 * method to draw explosion graphic.
+	 * Method to draw explosion graphic.
 	 *
 	 * @param g the graphic to draw it on
 	 */
@@ -677,7 +681,7 @@ KeyListener {
 		public void actionPerformed(final ActionEvent e) {
 
 			//to start a new game
-			if (e.getSource() == newGame){
+			if (e.getSource() == newGame) {
 				getPanel().removeAll();
 				
 				explosion.flush();
@@ -688,7 +692,8 @@ KeyListener {
 					explosionSound.open(AudioSystem.getAudioInputStream(
 							new File("explosionsound.wav")));
 				} catch (Exception ex) {
-					ex.printStackTrace(); }
+					ex.printStackTrace(); 
+					}
 				menu = true;
 				
 				createBricks();
@@ -703,7 +708,7 @@ KeyListener {
 
 			}
 			//to quit the game
-			if (e.getSource() == quitGame){
+			if (e.getSource() == quitGame) {
 				System.exit(0);
 			}
 		}

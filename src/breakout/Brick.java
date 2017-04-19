@@ -57,18 +57,18 @@ public class Brick {
 	 * @param c the color of the brick
 	 */
 	public Brick(final BreakoutPanel game, final int cl,
-			final int r, final Color c, int special) {
-		this.special = special;
+			final int r, final Color c, int spec) {
+		this.special = spec;
 		HEIGHT = 22;
 		WIDTH = (game.getBreakoutWidth()
 				- (BreakoutPanel.getNumBricksInRow())
 				* BRICK_SEPARATION)
 				/ BreakoutPanel.getNumBricksInRow() - 2;
 		this.color = c;
-		startX = game.getBreakoutWidth() - 
-				(WIDTH + 6 * BRICK_SEPARATION); 
-		startY = game.getBreakoutHeight() - 
-				PADDLE_BRICK_DIST - (HEIGHT / 2);
+		startX = game.getBreakoutWidth() 
+				- (WIDTH + 6 * BRICK_SEPARATION); 
+		startY = game.getBreakoutHeight() 
+				- PADDLE_BRICK_DIST - (HEIGHT / 2);
 		x = startX - cl * (WIDTH + BRICK_SEPARATION);
 		y = startY - r * (HEIGHT + BRICK_SEPARATION);
 		this.row = r;
