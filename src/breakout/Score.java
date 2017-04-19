@@ -107,15 +107,58 @@ public class Score implements Serializable, Comparable<Score> {
 	 * @param o The object being compared to.
 	 */
 	@Override
-	public int compareTo(final Score o) {
-		if (!(o instanceof Score)) {
-		      throw new ClassCastException();
-		}
-		    int anotherValue = o.getValue();
-		    int anotherTime = o.getTime();  
-		    if (this.value - anotherValue == 0) {
-		    	return anotherTime - this.time;
+	public int compareTo(final Score o) {  
+		    if (this.value - o.getValue() == 0) {
+		    	return o.getTime() - this.time;
 		    }
-		    return this.value - anotherValue;
+		    return this.value - o.getValue();
+	}
+	
+	/**
+	 * Generates hashCode.
+	 * @return result The hashCode.
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result 
+				+ ((name == null) ? 0 : name.hashCode());
+		result = prime * result + time;
+		result = prime * result + value;
+		return result;
+	}
+	
+	/**
+	 * Checks equality.
+	 * @param obj Object being compared to.
+	 * @return boolean Based on result.
+	 */
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		Score other = (Score) obj;
+		if (name == null) {
+			if (other.name != null) {
+				return false;
+			}
+		} else if (!name.equals(other.name)) {
+			return false;
+		}
+		if (time != other.time) {
+			return false;
+		}
+		if (value != other.value) {
+			return false;
+		}
+		return true;
 	}
 }

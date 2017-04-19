@@ -19,7 +19,7 @@ public class Breakout extends JFrame {
     private BreakoutPanel panel;
     
     /** JFrame object to hold game frame. */
-    private static JFrame frame;
+    private JFrame frame;
 
     /**
      * public constructor for Breakout game. Creates panel which will

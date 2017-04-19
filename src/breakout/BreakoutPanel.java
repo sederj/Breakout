@@ -117,7 +117,7 @@ KeyListener {
 	private JMenuItem quitGame;
 
 	/** Button listener object. */
-	private ButtonListener buttonListener = new ButtonListener();
+	private transient ButtonListener buttonListener = new ButtonListener();
 
 	/**
 	 * Public constructor for BreakoutPanel. Adds ball and player
@@ -128,6 +128,7 @@ KeyListener {
 		this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		Brick.loadImages();
 		Paddle.loadImages();
+		Ball.loadSounds();
 		setBackground(Color.WHITE);
 		createBricks();
 		balls = new LinkedList<Ball>();
@@ -440,15 +441,16 @@ KeyListener {
 						Collections.reverseOrder());
 				String scoreOutput = 
 						"<html><table border=\"1\">";
-				scoreOutput += 
-						"<tr><th>#</th><th>Name</th>"
+				scoreOutput = scoreOutput 
+						+ "<tr><th>#</th><th>Name</th>"
 						+ "<th>Score</th>"
 						+ "<th>Time</th></tr>";
 				for (int i = 0; i < this.scores.length; i++) {
-					scoreOutput += "<tr>";
-					scoreOutput += "<td><center>" 
+					scoreOutput = scoreOutput + "<tr>";
+					scoreOutput = scoreOutput 
+							+ "<td><center>" 
 					+ (i + 1) + "</center></td>";
-					scoreOutput += "<td>" 
+					scoreOutput = scoreOutput + "<td>" 
 					+ this.scores[i].getName() 
 					+ "</td>" + "<td>" 
 					+ this.scores[i].getValue()
@@ -541,15 +543,15 @@ KeyListener {
 					Collections.reverseOrder());
 			String scoreOutput = 
 					"<html><table border=\"1\">";
-			scoreOutput += "<tr><th>#</th>"
+			scoreOutput = scoreOutput + "<tr><th>#</th>"
 					+ "<th>Name</th>"
 					+ "<th>Score</th>"
 					+ "<th>Time</th></tr>";
 			for (int i = 0; i < this.scores.length; i++) {
-				scoreOutput += "<tr>";
-				scoreOutput += "<td><center>" 
+				scoreOutput = scoreOutput + "<tr>";
+				scoreOutput = scoreOutput + "<td><center>" 
 				+ (i + 1) + "</center></td>";
-				scoreOutput += "<td>" 
+				scoreOutput = scoreOutput + "<td>" 
 				+ this.scores[i].getName() 
 				+ "</td>" + "<td>" 
 				+ this.scores[i].getValue()

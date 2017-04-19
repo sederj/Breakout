@@ -48,7 +48,7 @@ public class Ball {
     private Brick removeBrick;
 
     /** object for the sound clip. */
-    private Clip clip;
+    private static  Clip clip;
 
     /** stream for the audio clip. */
     private static AudioInputStream bounceStream;
@@ -63,6 +63,17 @@ public class Ball {
 		xMove = 0.5 + (1.5 - 0.5) * random.nextDouble();
 		yMove = Math.sqrt(Math.pow(speed, 2) - Math.pow(xMove, 2));
 		xMove *= (random.nextInt(2) == 0) ? 1 : -1;
+		
+
+		this.game = mGame;
+        x = (double) game.getBreakoutWidth() / 2.0;
+        y = (double) game.getBreakoutHeight() / 2.0;
+	}
+	
+	/**
+	 * Loads the sounds for the game.
+	 */
+	public static void loadSounds() {
 		try {
 			bounceStream = AudioSystem.getAudioInputStream(
 					new File("bouncesound.wav"));
@@ -76,10 +87,6 @@ public class Ball {
 		} catch (UnsupportedAudioFileException e) {
 			e.printStackTrace();
 		}
-
-		this.game = mGame;
-        x = game.getBreakoutWidth() / 2;
-        y = game.getBreakoutHeight() / 2;
 	}
 
 	/**
