@@ -52,7 +52,7 @@ public class Paddle {
         this.right = mRight;
     }
     
-    /** load image for paddle */
+    /** Load image for paddle. */
     public static void loadImages() {
     	try {
 			paddleImage = ImageIO.read(new File("paddle.png"));
