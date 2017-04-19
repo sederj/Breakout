@@ -390,10 +390,9 @@ KeyListener {
 	private void update() {
 		// Pauses gameplay during menu.
 		if (menu || System.currentTimeMillis() 
-				- explosionTimer <= 1000) {
-			return;
+		- explosionTimer <= 1000) {
+			return; 
 		}
-		
 		// Checks if the player has lost.
 		if (this.checkLoss()) {
 			this.lives--;
@@ -418,9 +417,8 @@ KeyListener {
 							.showInputDialog(
 							"Please input "
 							+ "your initials: ");
-						if (s == null 
-								|| s.length() 
-								> 3) {
+						if (s == null || 
+							s.length() > 3) {
 							JOptionPane.
 							showMessageDialog(
 							null, 
@@ -450,13 +448,13 @@ KeyListener {
 					scoreOutput += "<tr>";
 					scoreOutput += "<td><center>" 
 					+ (i + 1) + "</center></td>";
-					scoreOutput += "<td>" 
-					+ this.scores[i].getName() 
-					+ "</td>" + "<td>" 
-					+ this.scores[i].getValue()
-					+ "</td>" + "<td>" 
-					+ this.scores[i].getTime() 
-					+ "</td>" + "</tr>";
+					scoreOutput += "<td>" + 
+					this.scores[i].getName() + 
+					"</td>" + "<td>" + 
+					this.scores[i].getValue()
+					+ "</td>" + "<td>" + 
+					this.scores[i].getTime() + 
+					"</td>" + "</tr>";
 				}
 				scoreOutput += "</table></html>";
 
@@ -487,88 +485,7 @@ KeyListener {
 		
 		// Checks if the player has won.
 		if (this.checkWin()) {
-			if (!this.end) {
-				JOptionPane.showMessageDialog(null,
-						"You win!\nScore: " 
-				+ this.score + "\nTime: " 
-				+ (System.currentTimeMillis() 
-				- startTime) / 1000,
-				"Victory", 
-				JOptionPane.INFORMATION_MESSAGE);
-				int theTime = 
-				(int) (System.currentTimeMillis()
-					- startTime) / 1000;
-				if (this.scores[9].getValue() <= this.score) {
-					while (true) {
-						String s = 
-						JOptionPane.showInputDialog(
-						"Please input your initials: ");
-						if (s == null 
-							|| s.length() > 3) {
-							JOptionPane.
-							showMessageDialog(
-							null, 
-							"Please enter "
-							+ "less than 3"
-							+ " characters.", 
-							"Error",
-							JOptionPane.
-							WARNING_MESSAGE);
-						} else {
-							this.scores[9] = 
-								new Score(
-								this.score, 
-								theTime, s);
-							break;
-						}
-					}
-				}
-				Arrays.sort(this.scores, 
-						Collections.reverseOrder());
-				String scoreOutput = 
-						"<html><table border=\"1\">";
-				scoreOutput += "<tr><th>#</th>"
-						+ "<th>Name</th>"
-						+ "<th>Score</th>"
-						+ "<th>Time</th></tr>";
-				for (int i = 0; i < this.scores.length; i++) {
-					scoreOutput += "<tr>";
-					scoreOutput += "<td><center>" 
-					+ (i + 1) + "</center></td>";
-					scoreOutput += "<td>" 
-					+ this.scores[i].getName() 
-					+ "</td>" + "<td>" 
-					+ this.scores[i].getValue()
-					+ "</td>" + "<td>" 
-					+ this.scores[i].getTime() 
-					+ "</td>" + "</tr>";
-				}
-				scoreOutput += "</table></html>";
-
-				JLabel scoreLabel = 
-						new JLabel(
-						scoreOutput, JLabel.CENTER);
-
-				JOptionPane.showMessageDialog(
-						null, scoreLabel, 
-						"High Scores", 
-						JOptionPane.DEFAULT_OPTION);
-
-				try {
-					FileOutputStream fout = 
-					new FileOutputStream("thescores.dat");
-					ObjectOutputStream oos = 
-						new ObjectOutputStream(fout);
-					oos.writeObject(this.scores);
-					oos.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				this.end = true;
-				for (int i = 0; i < balls.size(); i++) {
-					this.balls.remove(i);
-				}
-			}
+			checkWinCondition();
 		}
 		
 		// Updates any balls on screen and the paddle.
@@ -577,6 +494,95 @@ KeyListener {
 		}
 		player.update();
 
+	}
+	
+	/**
+	 * Method containing logic for the check
+	 * win conditions.
+	 */
+	private void checkWinCondition() {
+		if (!this.end) {
+			JOptionPane.showMessageDialog(null,
+					"You win!\nScore: " 
+			+ this.score + "\nTime: " 
+			+ (System.currentTimeMillis() 
+			- startTime) / 1000,
+			"Victory", 
+			JOptionPane.INFORMATION_MESSAGE);
+			int theTime = 
+			(int) (System.currentTimeMillis()
+				- startTime) / 1000;
+			if (this.scores[9].getValue() <= this.score) {
+				while (true) {
+					String s = 
+					JOptionPane.showInputDialog(
+					"Please input your initials: ");
+					if (s == null ||
+						s.length() > 3) {
+						JOptionPane.
+						showMessageDialog(
+						null, 
+						"Please enter "
+						+ "less than 3"
+						+ " characters.", 
+						"Error",
+						JOptionPane.
+						WARNING_MESSAGE);
+					} else {
+						this.scores[9] = 
+							new Score(
+							this.score, 
+							theTime, s);
+						break;
+					}
+				}
+			}
+			Arrays.sort(this.scores, 
+					Collections.reverseOrder());
+			String scoreOutput = 
+					"<html><table border=\"1\">";
+			scoreOutput += "<tr><th>#</th>"
+					+ "<th>Name</th>"
+					+ "<th>Score</th>"
+					+ "<th>Time</th></tr>";
+			for (int i = 0; i < this.scores.length; i++) {
+				scoreOutput += "<tr>";
+				scoreOutput += "<td><center>" 
+				+ (i + 1) + "</center></td>";
+				scoreOutput += "<td>" 
+				+ this.scores[i].getName() 
+				+ "</td>" + "<td>" 
+				+ this.scores[i].getValue()
+				+ "</td>" + "<td>" 
+				+ this.scores[i].getTime() 
+				+ "</td>" + "</tr>";
+			}
+			scoreOutput += "</table></html>";
+
+			JLabel scoreLabel = 
+					new JLabel(
+					scoreOutput, JLabel.CENTER);
+
+			JOptionPane.showMessageDialog(
+					null, scoreLabel, 
+					"High Scores", 
+					JOptionPane.DEFAULT_OPTION);
+
+			try {
+				FileOutputStream fout = 
+				new FileOutputStream("thescores.dat");
+				ObjectOutputStream oos = 
+					new ObjectOutputStream(fout);
+				oos.writeObject(this.scores);
+				oos.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			this.end = true;
+			for (int i = 0; i < balls.size(); i++) {
+				this.balls.remove(i);
+			}
+		}
 	}
 
 	/**
@@ -811,5 +817,3 @@ KeyListener {
 		}
 	}
 }
-
-
