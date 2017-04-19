@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @author Joey Seder, Jacob McCloughan, Jonah Bukowsky
  * @version 4/19/17
  */
-public class Score implements Serializable, Comparable {
+public class Score implements Serializable, Comparable<Score> {
 	/**
 	 * Serialization ID for the class.
 	 */
@@ -107,12 +107,12 @@ public class Score implements Serializable, Comparable {
 	 * @param o The object being compared to.
 	 */
 	@Override
-	public int compareTo(final Object o) {
+	public int compareTo(final Score o) {
 		if (!(o instanceof Score)) {
 		      throw new ClassCastException();
 		}
-		    int anotherValue = ((Score) o).getValue();
-		    int anotherTime = ((Score) o).getTime();  
+		    int anotherValue = o.getValue();
+		    int anotherTime = o.getTime();  
 		    if (this.value - anotherValue == 0) {
 		    	return anotherTime - this.time;
 		    }

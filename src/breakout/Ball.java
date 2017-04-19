@@ -31,7 +31,7 @@ public class Ball {
 	/** private instance of Breakout game. */
 	private BreakoutPanel game;
 	
-	/** private random variable to determine initial ball direction */
+	/** private random variable to determine initial ball direction. */
 	private static Random random = new Random();
 
 	/** x and y are starting coordinates,
