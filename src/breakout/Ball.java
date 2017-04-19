@@ -166,11 +166,11 @@ public class Ball {
     }
 	
 	/** 
-	 * set the location of the ball
-	 * @param x the x location of the ball
-	 * @param y the y location of the ball
+	 * Set the location of the ball.
+	 * @param x1 The x location of the ball.
+	 * @param y1 The y location of the ball.
 	 */
-	public void setLocation(double x1, double y1) {
+	public void setLocation(final double x1, final double y1) {
 		this.x = x1;
 		this.y = y1;
 	}

@@ -45,19 +45,20 @@ public class Brick {
 	/** Color of brick object. */
 	private Color color;
 	
-	/** Determine if brick is special */
+	/** Determine if brick is special. */
 	private int special;
 
 	/**
 	 * public constructor for Brick object. Sets the
 	 * horizontal and vertical position of brick object
-	 * @param game the game instance being used
-	 * @param cl the column of the brick
-	 * @param r the row of the brick
-	 * @param c the color of the brick
+	 * @param game The game instance being used
+	 * @param cl The column of the brick
+	 * @param r The row of the brick
+	 * @param c The color of the brick
+	 * @param spec 
 	 */
 	public Brick(final BreakoutPanel game, final int cl,
-			final int r, final Color c, int spec) {
+			final int r, final Color c, final int spec) {
 		this.special = spec;
 		HEIGHT = 22;
 		WIDTH = (game.getBreakoutWidth()

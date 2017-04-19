@@ -368,7 +368,7 @@ KeyListener {
 	 * @param x the x location for creation
 	 * @param y the y location for creation
 	 */
-	public void createBall(double x, double y) {
+	public void createBall(final double x, final double y) {
 		Ball b = new Ball(getPanel());
 		b.setLocation(x, y);
 		balls.add(b);
