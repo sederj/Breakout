@@ -15,7 +15,7 @@ import javax.imageio.ImageIO;
  * and provide information on brick objects
  *
  * @author Joey Seder, Jacob McCloughan, Jonah Bukowsky
- * @version 2/22/17
+ * @version 4/19/17
  */
 public class Brick {
 	/** Height dimension of brick object. */

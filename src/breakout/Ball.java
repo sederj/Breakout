@@ -21,7 +21,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  * various collisions in the game.
  *
  * @author Joey Seder, Jacob McCloughan, Jonah Bukowsky
- * @version 2/12/17
+ * @version 4/19/17
  */
 public class Ball {
 

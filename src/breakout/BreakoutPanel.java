@@ -42,7 +42,7 @@ import javax.swing.Timer;
  * for keystrokes for the game.
  *
  * @author Joey Seder, Jacob McCloughan, Jonah Bukowsky
- * @version 2/22/17
+ * @version 4/19/17
  */
 public final class BreakoutPanel extends JPanel implements ActionListener,
 KeyListener {

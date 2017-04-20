@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
  * Contains logic to set the size and movement of paddle
  *
  * @author Joey Seder, Jacob McCloughan, Jonah Bukowsky
- * @version 2/22/17
+ * @version 4/19/17
  */
 public class Paddle {
 
